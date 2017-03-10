@@ -2,6 +2,9 @@ import { Res } from "./Res"
 import { EventArgs } from "./EventArgs"
 import { EventHandler, EventHandlerList } from "./EventHandlerList"
 import { Application } from "./Application"
+import { Control } from "./UI/Control"
+import { Behavior } from "./UI/Behavior"
+import { DomElement } from "./UI/DomElement"
 
 /**
  * Provides the base class for the Control and Behavior classes, and for any other object whose lifetime should be managed by the ASP.NET AJAX client library.
@@ -143,7 +146,7 @@ class Component
     public updated()
     {}
 
-    public static create < C extends Component | UI.Control | UI.Behavior, P extends ComponentProps > (
+    public static create < C extends Component | Control | Behavior, P extends ComponentProps > (
         type:
         {
             new( element ? : HTMLElement ): C;
@@ -157,7 +160,7 @@ class Component
         element: HTMLElement | null )
     {
         let component;
-        if ( type.inheritsFrom( UI.Control ) || type.inheritsFrom( UI.Behavior ) )
+        if ( type.inheritsFrom( Control ) || type.inheritsFrom( Behavior ) )
         {
             if ( element === null )
             {
@@ -226,7 +229,7 @@ class Component
     {
         let current;
         let targetType = Object.getType( target );
-        let isObject = ( targetType === Object ) || ( targetType === UI.DomElement );
+        let isObject = ( targetType === Object ) || ( targetType === DomElement );
         let isComponent = Component.isInstanceOfType( target ) && !target.get_isUpdating();
         if ( isComponent ) target.beginUpdate();
 

@@ -1,8 +1,9 @@
-import { Component } from "./Component"
 import { EventHandler } from "./EventHandlerList"
+import { Component } from "./Component"
 import { EventArgs } from "./EventArgs"
 import { ApplicationLoadEventArgs } from "./ApplicationLoadEventArgs"
 import { HistoryEventArgs } from "./HistoryEventArgs"
+import { DomEvent } from "./UI/DomEvent"
 
 /**
  * Provides a run-time object that exposes client events and manages client components that are registered with the application. 
@@ -26,7 +27,7 @@ class _Application extends Component
     {
         super();
 
-        Sys.UI.DomEvent.addHandler( window, "unload", this._unloadHandler );
+        DomEvent.addHandler( window, "unload", this._unloadHandler );
         this._domReady();
     }
 
@@ -293,11 +294,11 @@ class _Application extends Component
 
         let onload = () =>
         {
-            Sys.UI.DomEvent.removeHandler( window, "load", onload );
+            DomEvent.removeHandler( window, "load", onload );
             init();
         }
 
-        Sys.UI.DomEvent.addHandler( window, "load", onload );
+        DomEvent.addHandler( window, "load", onload );
 
         try
         {

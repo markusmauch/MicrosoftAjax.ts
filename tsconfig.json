@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "target": "es5"
   },
   "files": [
       "src/MicrosoftAjax.ts",
@@ -17,6 +18,16 @@
       "src/Sys/EventHandlerList.ts",
       "src/Sys/HistoryEventArgs.ts",
       "src/Sys/Res.ts",
-      "src/Sys/StringBuilder.ts"
+      "src/Sys/StringBuilder.ts",
+      "src/Sys/Serialization/JavaScriptSerializer.ts",
+      "src/Sys/UI/Behavior.ts",
+      "src/Sys/UI/Bounds.ts",
+      "src/Sys/UI/Control.ts",
+      "src/Sys/UI/DomElement.ts",
+      "src/Sys/UI/DomEvent.ts",
+      "src/Sys/UI/Key.ts",
+      "src/Sys/UI/MouseButton.ts",
+      "src/Sys/UI/Point.ts",
+      "src/Sys/UI/VisibilityMode.ts"
   ]
 }
