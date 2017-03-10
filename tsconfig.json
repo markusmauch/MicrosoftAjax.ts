@@ -5,6 +5,7 @@
     "target": "es5"
   },
   "files": [
+      /** src */
       "src/Index.ts",
       "src/Global.ts",
       "src/Array.ts",
@@ -39,6 +40,10 @@
       "src/Sys/Net/WebServiceError.ts",
       "src/Sys/Net/WebServiceProxy.ts",
       "src/Sys/Net/XMLDOM.ts",
-      "src/Sys/Net/XMLHttpExecutor.ts"
+      "src/Sys/Net/XMLHttpExecutor.ts",
+
+      /** test */
+      "test/Index.ts",
+      "test/WebRequest.ts"
   ]
 }

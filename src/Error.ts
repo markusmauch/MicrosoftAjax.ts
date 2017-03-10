@@ -210,4 +210,4 @@ function ErrorExtensions()
     }
 }
 
-export { ErrorExtensions }
+export { ErrorExtensions, ErrorInfo }
