@@ -32,25 +32,24 @@ FunctionExtensions();
 ObjectExtensions();
 StringExtensions();
 
-let Serialization = {
-    JavaScriptSerializer: JavaScriptSerializer
-};
-
-let UI = {
-    Behavior: Behavior,
-    Bounds: Bounds,
-    Control: Control.constructor,
+let UI =
+{
     DomElement: DomElement,
     DomEvent: DomEvent,
     Key: Key,
     MouseButton: MouseButton,
     Point: Point.constructor,
     BehavVisibilityModeior: VisibilityMode,
-};
+}
+
+let Serialization =
+{
+    JavaScriptSerializer: JavaScriptSerializer,
+}
 
 export // Sys
 {
-    Application,
+    //Application,
     ApplicationLoadEventArgs,
     Browser,
     CancelEventArgs,

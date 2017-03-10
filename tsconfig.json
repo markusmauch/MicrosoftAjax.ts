@@ -1,9 +1,12 @@
 {
   "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
     "target": "es5"
   },
   "files": [
-      "src/MicrosoftAjax.ts",
+      "src/Index.ts",
+      "src/Global.ts",
       "src/Array.ts",
       "src/Error.ts",
       "src/Function.ts",

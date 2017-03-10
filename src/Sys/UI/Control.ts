@@ -1,4 +1,8 @@
+
 import { Component, ComponentProps } from "../Component"
+
+interface ControlProps extends ComponentProps
+{}
 
 class Control extends Component
 {
@@ -15,8 +19,5 @@ class Control extends Component
         return this._element;
     }
 }
-
-interface ControlProps extends ComponentProps
-{}
 
 export { Control, ControlProps }

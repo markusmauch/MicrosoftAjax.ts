@@ -1,10 +1,22 @@
+
 import { Res } from "./Res"
 import { EventArgs } from "./EventArgs"
 import { EventHandler, EventHandlerList } from "./EventHandlerList"
-import { Application } from "./Application"
-import { Control } from "./UI/Control"
-import { Behavior } from "./UI/Behavior"
+// import { Application } from "./Application" // circular dependency
+//import { Control } from "./UI/Control"
+//import { Behavior } from "./UI/Behavior"
 import { DomElement } from "./UI/DomElement"
+
+interface ComponentProps
+{
+    id: string;
+}
+
+interface ComponentEvents
+{
+    disposing ? : EventHandler < Component, EventArgs > ;
+    propertyChanged ? : EventHandler < Component, EventArgs > ;
+}
 
 /**
  * Provides the base class for the Control and Behavior classes, and for any other object whose lifetime should be managed by the ASP.NET AJAX client library.
@@ -22,7 +34,7 @@ class Component
      */
     constructor()
     {
-        if ( Application ) Application.registerDisposableObject( this );
+        if ( window[ "Application" ] !== undefined ) window[ "Application" ].registerDisposableObject( this );
     }
 
     public get_events()
@@ -146,7 +158,7 @@ class Component
     public updated()
     {}
 
-    public static create < C extends Component | Control | Behavior, P extends ComponentProps > (
+    /*public static create < C extends Component | Control | Behavior, P extends ComponentProps > (
         type:
         {
             new( element ? : HTMLElement ): C;
@@ -223,7 +235,7 @@ class Component
         component.endUpdate();
 
         return component;
-    }
+    }*/
 
     public static _setProperties( target: Component, properties: ComponentProps )
     {
@@ -288,15 +300,4 @@ class Component
     }
 }
 
-interface ComponentProps
-{
-    id: string;
-}
-
-interface ComponentEvents
-{
-    disposing ? : EventHandler < Component, EventArgs > ;
-    propertyChanged ? : EventHandler < Component, EventArgs > ;
-}
-
-export { Component, ComponentProps, ComponentEvents }
+export { ComponentProps, ComponentEvents, Component }
