@@ -9,6 +9,14 @@
       "src/Object.ts",
       "src/String.ts",
       "src/Sys/Application.ts",
+      "src/Sys/Browser.ts",
+      "src/Sys/CancelEventArgs.ts",
+      "src/Sys/Component.ts",
+      "src/Sys/CultureInfo.ts",
+      "src/Sys/EventArgs.ts",
+      "src/Sys/EventHandlerList.ts",
+      "src/Sys/HistoryEventArgs.ts",
+      "src/Sys/Res.ts",
       "src/Sys/StringBuilder.ts"
   ]
 }

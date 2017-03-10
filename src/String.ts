@@ -1,4 +1,6 @@
 
+import { Res } from "./Sys/Res"
+
 declare global
 {
     interface String
@@ -67,7 +69,7 @@ function StringExtensions()
         return String._toFormattedString( true, args );
     }
 
-    /*String._toFormattedString = ( useLocale: boolean, args: String[] ) =>
+    String._toFormattedString = ( useLocale: boolean, args: String[] ) =>
     {
         var result = "";
         var format = args[0];
@@ -84,7 +86,7 @@ function StringExtensions()
             {
                 if (format.charAt(close + 1) !== '}')
                 {
-                    throw Error.argument('format', Sys.Res.stringFormatBraceMismatch);
+                    throw Error.argument('format', Res.stringFormatBraceMismatch);
                 }
                 result += format.slice( i, close + 1 );
                 i = close + 2;
@@ -100,7 +102,7 @@ function StringExtensions()
             }
             if ( close < 0 ) 
             {
-                throw Error.argument('format', Sys.Res.stringFormatBraceMismatch);
+                throw Error.argument('format', Res.stringFormatBraceMismatch);
             }
             let brace = format.substring( i, close );
             let colonIndex = brace.indexOf( ":" );
@@ -108,7 +110,7 @@ function StringExtensions()
                 ? brace
                 : brace.substring( 0, colonIndex ), 10 ) + 1;
             if ( isNaN( argNumber ) ) 
-                throw Error.argument( "format", Sys.Res.stringFormatInvalid );
+                throw Error.argument( "format", Res.stringFormatInvalid );
             let argFormat = ( colonIndex < 0 )
                 ? ''
                 : brace.substring( colonIndex + 1 );
@@ -137,7 +139,7 @@ function StringExtensions()
             i = close + 1;
         }
         return result;
-    }*/
+    }
 }
 
 
