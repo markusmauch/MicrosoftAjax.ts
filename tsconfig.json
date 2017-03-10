@@ -31,6 +31,14 @@
       "src/Sys/UI/Key.ts",
       "src/Sys/UI/MouseButton.ts",
       "src/Sys/UI/Point.ts",
-      "src/Sys/UI/VisibilityMode.ts"
+      "src/Sys/UI/VisibilityMode.ts",
+      "src/Sys/Net/NetworkRequestEventArgs.ts",
+      "src/Sys/Net/WebRequest.ts",
+      "src/Sys/Net/WebRequestExecutor.ts",
+      "src/Sys/Net/WebRequestManager.ts",
+      "src/Sys/Net/WebServiceError.ts",
+      "src/Sys/Net/WebServiceProxy.ts",
+      "src/Sys/Net/XMLDOM.ts",
+      "src/Sys/Net/XMLHttpExecutor.ts"
   ]
 }
