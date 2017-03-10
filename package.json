@@ -1,0 +1,24 @@
+{
+  "name": "asp.net.ajax.ts",
+  "version": "1.0.0",
+  "description": "## TypeScript port ot the Microsoft ASP.NET AJAX framework (MicrosoftAjax.js)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Markus Mauch",
+  "license": "MIT",
+  "dependencies": {
+    "ts-loader": "^2.0.1",
+    "typescript": "^2.2.1",
+    "webpack": "^2.2.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/markusmauch/MicrosoftAjax.ts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/markusmauch/MicrosoftAjax.ts/issues"
+  },
+  "homepage": "https://github.com/markusmauch/MicrosoftAjax.ts#readme"
+}

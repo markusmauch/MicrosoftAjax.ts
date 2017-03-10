@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+  },
+  "files": [
+      "src/MicrosoftAjax.ts",
+      "src/Array.ts",
+      "src/Error.ts",
+      "src/Function.ts",
+      "src/Object.ts",
+      "src/String.ts",
+      "src/Sys/Application.ts",
+      "src/Sys/StringBuilder.ts"
+  ]
+}
