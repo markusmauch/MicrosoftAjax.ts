@@ -1,4 +1,4 @@
-import { EventArgs } from "./EventArgs"
+import { EventArgs } from "Sys/EventArgs"
 
 class HistoryEventArgs extends EventArgs
 {}

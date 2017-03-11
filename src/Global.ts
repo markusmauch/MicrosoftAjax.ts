@@ -1,9 +1,9 @@
 
-import { Res } from "./Sys/Res"
-import { Component, ComponentProps } from "./Sys/Component"
-import { Control } from "./Sys/UI/Control"
-import { Behavior } from "./Sys/UI/Behavior"
-import { DomElement } from "./Sys/UI/DomElement"
+import { Res } from "Sys/Res"
+import { Component, ComponentProps } from "Sys/Component"
+import { Control } from "Sys/UI/Control"
+import { Behavior } from "Sys/UI/Behavior"
+import { DomElement } from "Sys/UI/DomElement"
 
 function $create<C extends Component | Control | Behavior, P extends ComponentProps> (
     type:

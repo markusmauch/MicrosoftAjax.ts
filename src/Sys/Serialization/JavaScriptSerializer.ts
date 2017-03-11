@@ -1,7 +1,7 @@
 
-import { StringBuilder } from "../StringBuilder"
-import { Res } from "../Res"
-import { Browser } from "../Browser"
+import { StringBuilder } from "Sys/StringBuilder"
+import { Res } from "Sys/Res"
+import { Browser } from "Sys/Browser"
 
 namespace JavaScriptSerializer
 {

@@ -1,5 +1,5 @@
 
-import { Component } from "../Component"
+import { Component } from "Sys/Component"
 
 class Behavior extends Component
 {

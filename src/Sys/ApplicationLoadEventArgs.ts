@@ -1,5 +1,5 @@
-import { Component } from "./Component"
-import { EventArgs } from "./EventArgs"
+import { Component } from "Sys/Component"
+import { EventArgs } from "Sys/EventArgs"
 
 class ApplicationLoadEventArgs extends EventArgs
 {

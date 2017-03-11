@@ -1,8 +1,8 @@
 
-import { Res } from "../Res"
-import { EventArgs } from "../EventArgs"
-import { WebRequestExecutor } from "./WebRequestExecutor"
-import { XMLDOM } from "./XMLDOM"
+import { Res } from "Sys/Res"
+import { EventArgs } from "Sys/EventArgs"
+import { WebRequestExecutor } from "Sys/Net/WebRequestExecutor"
+import { XMLDOM } from "Sys/Net/XMLDOM"
 
 interface XmlDomDocument extends Document
 {

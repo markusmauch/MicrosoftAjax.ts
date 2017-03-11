@@ -1,9 +1,9 @@
-import { EventHandler } from "./EventHandlerList"
-import { Component } from "./Component"
-import { EventArgs } from "./EventArgs"
-import { ApplicationLoadEventArgs } from "./ApplicationLoadEventArgs"
-import { HistoryEventArgs } from "./HistoryEventArgs"
-import { DomEvent } from "./UI/DomEvent"
+import { EventHandler } from "Sys/EventHandlerList"
+import { Component } from "Sys/Component"
+import { EventArgs } from "Sys/EventArgs"
+import { ApplicationLoadEventArgs } from "Sys/ApplicationLoadEventArgs"
+import { HistoryEventArgs } from "Sys/HistoryEventArgs"
+import { DomEvent } from "Sys/UI/DomEvent"
 
 /**
  * Provides a run-time object that exposes client events and manages client components that are registered with the application. 

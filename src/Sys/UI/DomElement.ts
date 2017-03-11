@@ -1,7 +1,7 @@
 
-import { Bounds } from "./Bounds"
-import { Point } from "./Point"
-import { VisibilityMode } from "./VisibilityMode"
+import { Bounds } from "Sys/UI/Bounds"
+import { Point } from "Sys/UI/Point"
+import { VisibilityMode } from "Sys/UI/VisibilityMode"
 
 class DomElement
 {

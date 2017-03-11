@@ -1,8 +1,8 @@
 
-import { Res } from "../Res"
-import { JavaScriptSerializer } from "../Serialization/JavaScriptSerializer"
-import { WebServiceError } from "./WebServiceError"
-import { WebRequest } from "./WebRequest"
+import { Res } from "Sys/Res"
+import { JavaScriptSerializer } from "Sys/Serialization/JavaScriptSerializer"
+import { WebServiceError } from "Sys/Net/WebServiceError"
+import { WebRequest } from "Sys/Net/WebRequest"
 
 let _jsonp = 0;
 

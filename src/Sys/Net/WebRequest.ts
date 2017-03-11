@@ -1,11 +1,11 @@
 
-import { Res} from "../Res"
-import { StringBuilder} from "../StringBuilder"
-import { JavaScriptSerializer} from "../Serialization/JavaScriptSerializer"
-import { EventHandlerList, EventHandler } from "../EventHandlerList"
-import { EventArgs} from "../EventArgs"
-import { WebRequestExecutor } from "./WebRequestExecutor"
-import { WebRequestManager } from "./WebRequestManager"
+import { Res} from "Sys/Res"
+import { StringBuilder} from "Sys/StringBuilder"
+import { JavaScriptSerializer} from "Sys/Serialization/JavaScriptSerializer"
+import { EventHandlerList, EventHandler } from "Sys/EventHandlerList"
+import { EventArgs} from "Sys/EventArgs"
+import { WebRequestExecutor } from "Sys/Net/WebRequestExecutor"
+import { WebRequestManager } from "Sys/Net/WebRequestManager"
 
 type HttpVerb = "GET" | "POST";
 

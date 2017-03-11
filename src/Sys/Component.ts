@@ -1,11 +1,11 @@
 
-import { Res } from "./Res"
-import { EventArgs } from "./EventArgs"
-import { EventHandler, EventHandlerList } from "./EventHandlerList"
-// import { Application } from "./Application" // circular dependency
-//import { Control } from "./UI/Control"
-//import { Behavior } from "./UI/Behavior"
-import { DomElement } from "./UI/DomElement"
+import { Res } from "Sys/Res"
+import { EventArgs } from "Sys/EventArgs"
+import { EventHandler, EventHandlerList } from "Sys/EventHandlerList"
+// import { Application } from "Sys/Application" // circular dependency
+//import { Control } from "Sys/UI/Control"
+//import { Behavior } from "Sys/UI/Behavior"
+import { DomElement } from "Sys/UI/DomElement"
 
 interface ComponentProps
 {

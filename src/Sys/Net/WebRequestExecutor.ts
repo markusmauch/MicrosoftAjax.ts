@@ -1,6 +1,6 @@
 
-import { WebRequest } from "./WebRequest"
-import { JavaScriptSerializer} from "../Serialization/JavaScriptSerializer"
+import { WebRequest } from "Sys/Net/WebRequest"
+import { JavaScriptSerializer} from "Sys/Serialization/JavaScriptSerializer"
 
 /**
  * Provides the abstract base class from which network executors derive.

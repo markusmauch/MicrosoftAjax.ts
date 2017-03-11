@@ -1,5 +1,5 @@
 
-import { MouseButton } from "./MouseButton"
+import { MouseButton } from "Sys/UI/MouseButton"
 
 class DomEvent
 {

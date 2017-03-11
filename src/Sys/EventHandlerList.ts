@@ -1,5 +1,5 @@
 
-import { EventArgs } from "./EventArgs"
+import { EventArgs } from "Sys/EventArgs"
 
 type EventHandler<TSender, TArgs> = ( sender: TSender, args?: EventArgs ) => void;
 

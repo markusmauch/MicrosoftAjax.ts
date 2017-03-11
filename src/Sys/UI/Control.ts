@@ -1,5 +1,5 @@
 
-import { Component, ComponentProps } from "../Component"
+import { Component, ComponentProps } from "Sys/Component"
 
 interface ControlProps extends ComponentProps
 {}

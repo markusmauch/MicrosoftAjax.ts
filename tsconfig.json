@@ -2,7 +2,8 @@
   "compilerOptions": {
     "module": "commonjs",
     "moduleResolution": "node",
-    "target": "es5"
+    "target": "es5",
+    "baseUrl": "./src/"
   },
   "files": [
       /** src */
@@ -44,6 +45,7 @@
 
       /** test */
       "test/Index.ts",
+      "test/StringBuilder.ts",
       "test/WebRequest.ts"
   ]
 }

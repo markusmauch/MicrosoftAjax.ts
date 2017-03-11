@@ -1,5 +1,5 @@
 
-import { Res } from "./Sys/Res"
+import { Res } from "Sys/Res"
 
 declare global
 {

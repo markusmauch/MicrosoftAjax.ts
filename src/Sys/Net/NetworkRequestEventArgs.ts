@@ -1,6 +1,6 @@
 
-import { CancelEventArgs } from "../CancelEventArgs"
-import { WebRequest } from "./WebRequest"
+import { CancelEventArgs } from "Sys/CancelEventArgs"
+import { WebRequest } from "Sys/Net/WebRequest"
 
 /**
  * Contains information about a Web request that is ready to be sent to the current Sys.Net.WebRequestExecutor instance.

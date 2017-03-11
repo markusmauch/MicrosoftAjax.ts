@@ -1,10 +1,10 @@
 
-import { XMLHttpExecutor } from "./XMLHttpExecutor"
-import { NetworkRequestEventArgs } from "./NetworkRequestEventArgs"
-import { WebRequest } from "./WebRequest"
-import { WebRequestExecutor } from "./WebRequestExecutor"
-import { EventHandlerList, EventHandler } from "../EventHandlerList"
-import { Res } from "../Res"
+import { XMLHttpExecutor } from "Sys/Net/XMLHttpExecutor"
+import { NetworkRequestEventArgs } from "Sys/Net/NetworkRequestEventArgs"
+import { WebRequest } from "Sys/Net/WebRequest"
+import { WebRequestExecutor } from "Sys/Net/WebRequestExecutor"
+import { EventHandlerList, EventHandler } from "Sys/EventHandlerList"
+import { Res } from "Sys/Res"
 
 /**
  * Manages the flow of the Web requests issued by the {@link WebRequest} object to the associated executor object.
