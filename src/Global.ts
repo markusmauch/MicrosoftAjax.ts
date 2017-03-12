@@ -16,7 +16,7 @@ function $create<C extends Component | Control | Behavior, P extends ComponentPr
         [ name: string ]: any
     } | null,
     references: any | null,
-    element: HTMLElement | null )
+    element: HTMLElement | null ) : C
 {
     let component;
     if ( type.inheritsFrom( Control ) || type.inheritsFrom( Behavior ) )
@@ -84,6 +84,11 @@ function $create<C extends Component | Control | Behavior, P extends ComponentPr
     return component;
 }
 
+function $find(): Component
+{
+    return new Component();
+}
+
 /**
  * Provides a shortcut to the {@link getElementById} method of the {@link Sys.UI.DomElement} class.
  * This member is static and can be invoked without creating an instance of the class.
@@ -97,3 +102,4 @@ function $get( id: string, element?: HTMLElement )
     return DomElement.getElementById( id, element );
 }
 
+export { $create, $find, $get }

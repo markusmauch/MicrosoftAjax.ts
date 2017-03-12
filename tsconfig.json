@@ -46,6 +46,8 @@
       /** test */
       "test/Index.ts",
       "test/StringBuilder.ts",
-      "test/WebRequest.ts"
+      "test/WebRequest.ts",
+      "test/Control.ts",
+      "test/CultureInfo.ts"
   ]
 }
