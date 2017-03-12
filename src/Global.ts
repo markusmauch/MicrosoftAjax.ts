@@ -4,8 +4,9 @@ import { Component, ComponentProps } from "Sys/Component"
 import { Control } from "Sys/UI/Control"
 import { Behavior } from "Sys/UI/Behavior"
 import { DomElement } from "Sys/UI/DomElement"
+import { Application, IContainer } from "Sys/Application"
 
-function $create<C extends Component | Control | Behavior, P extends ComponentProps> (
+function $create<C extends Component, P extends ComponentProps> (
     type:
     {
         new( element ? : HTMLElement ): C;
@@ -32,8 +33,6 @@ function $create<C extends Component | Control | Behavior, P extends ComponentPr
         component = new Component();
     }
 
-    //var app = Application;
-    //var creatingComponents = app.get_isCreatingComponents();
 
     component.beginUpdate();
 
@@ -58,35 +57,41 @@ function $create<C extends Component | Control | Behavior, P extends ComponentPr
         }
     }
 
-    // if ( component.get_id() )
-    // {
-    //     app.addComponent(component);
-    // }
-    // if ( creatingComponents )
-    // {
-    //     app._createdComponents[app._createdComponents.length] = component;
-    //     if (references) {
-    //         app._addComponentToSecondPass(component, references);
-    //     }
-    //     else {
-    //         component.endUpdate();
-    //     }
-    // }
-    // else {
-    //     if (references) {
-    //         Sys$Component$_setReferences(component, references);
-    //     }
-    //     component.endUpdate();
-    // }
+    if ( component.get_id() !== undefined )
+    {
+        Application.addComponent( component );
+    }
+    
+    let creatingComponents = Application.get_isCreatingComponents();
+    if ( creatingComponents === true )
+    {
+        Application._createdComponents.push( component );
+        if ( references )
+        {
+            Application._addComponentToSecondPass( component, references );
+        }
+        else
+        {
+            component.endUpdate();
+        }
+    }
+    else
+    {
+        if (references)
+        {
+            Component._setReferences( component, references );
+        }
+        component.endUpdate();
+    }
 
     component.endUpdate();
 
     return component;
 }
 
-function $find(): Component
+function $find( id: string, parent?: IContainer ): Component
 {
-    return new Component();
+    return Application.findComponent( id, parent );
 }
 
 /**

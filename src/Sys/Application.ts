@@ -1,9 +1,16 @@
+
+import { Res } from "Sys/Res"
 import { EventHandler } from "Sys/EventHandlerList"
-import { Component } from "Sys/Component"
+import { Component, ComponentReferences } from "Sys/Component"
 import { EventArgs } from "Sys/EventArgs"
 import { ApplicationLoadEventArgs } from "Sys/ApplicationLoadEventArgs"
 import { HistoryEventArgs } from "Sys/HistoryEventArgs"
 import { DomEvent } from "Sys/UI/DomEvent"
+
+interface IContainer
+{
+    findComponent( id: string, parent?: IContainer ): Component;
+}
 
 /**
  * Provides a run-time object that exposes client events and manages client components that are registered with the application. 
@@ -11,15 +18,16 @@ import { DomEvent } from "Sys/UI/DomEvent"
  * The members can be invoked without creating an instance of the class.
  * @see {@link http://msdn.microsoft.com/en-us/library/bb384161(v=vs.100).aspx}
  */
-class _Application extends Component
+class _Application extends Component implements IContainer
 {
     private _disposableObjects: Component[] = [];
+    private _creatingComponents = false;
     private _components:
     {
         [ name: string ]: Component
     } = {};
-    private _createdComponents: Component[] = [];
-    private _secondPassComponents: Component[] = [];
+    public _createdComponents: Component[] = [];
+    private _secondPassComponents: { component: Component, references: ComponentReferences }[] = [];
     private _disposing = false;
     private _loaded = false;
 
@@ -36,7 +44,7 @@ class _Application extends Component
      */
     public get_isCreatingComponents(): boolean
     {
-        return true;
+        return this._creatingComponents;
     }
 
     /**
@@ -122,7 +130,15 @@ class _Application extends Component
      * Registers a component with the application and initializes it if the component is not already initialized.
      */
     public addComponent( component: Component ): void
-    {}
+    {
+        let id = component.get_id();
+        if( !id ) throw Error.invalidOperation( Res.cantAddWithoutId );
+        if( this._components[ id ] !== undefined )
+        {
+            throw Error.invalidOperation( String.format( Res.appDuplicateComponent, id ) );
+        } 
+        this._components[ id ] = component;
+    }
 
     /**
      * Instructs the application to start creating components.
@@ -233,9 +249,14 @@ class _Application extends Component
      * Returns the specified Component object. This member is static and can be invoked without creating an instance of the class.
      * @return A Component object that contains the component requested by ID, if found; otherwise, null.
      */
-    public findComponent( id: string, parent ? : Component | HTMLElement ): Component
+    public findComponent( id: string, parent?: IContainer ): Component
     {
-        return new Component();
+        if ( parent !== undefined )
+        {
+            return parent.findComponent( id );
+        }
+        
+        return this._components[ id ] || null;
     }
 
     /**
@@ -274,7 +295,6 @@ class _Application extends Component
      */
     public unregisterDisposableObject( object: any ): void
     {}
-
 
     /**
      * Gets a value that indicates whether the application is in the process of disposing its resources. This member is static and can be invoked without creating an instance of the class.
@@ -328,6 +348,13 @@ class _Application extends Component
     {
         this.dispose();
     }
+
+    public _addComponentToSecondPass( component: Component, references: any )
+    {
+        this._secondPassComponents.push( { component: component, references: references } );
+    }
 }
 
-export var Application = new _Application();
+let Application = new _Application();
+
+export { Application, IContainer }

@@ -7,6 +7,9 @@ import { EventHandler, EventHandlerList } from "Sys/EventHandlerList"
 //import { Behavior } from "Sys/UI/Behavior"
 import { DomElement } from "Sys/UI/DomElement"
 
+declare class Control {};
+declare class Behavior {};
+
 interface ComponentProps
 {
     id: string;
@@ -16,6 +19,11 @@ interface ComponentEvents
 {
     disposing ? : EventHandler < Component, EventArgs > ;
     propertyChanged ? : EventHandler < Component, EventArgs > ;
+}
+
+interface ComponentReferences
+{
+    [ name: string ]: Component
 }
 
 /**
@@ -158,84 +166,23 @@ class Component
     public updated()
     {}
 
-    /*public static create < C extends Component | Control | Behavior, P extends ComponentProps > (
-        type:
-        {
-            new( element ? : HTMLElement ): C;
-        },
-        properties: P | null,
-        events:
-        {
-            [ name: string ]: any
-        } | null,
-        references: any | null,
-        element: HTMLElement | null )
+    public static _setReferences( component: Component, references: ComponentReferences ) // TODO
     {
-        let component;
-        if ( type.inheritsFrom( Control ) || type.inheritsFrom( Behavior ) )
+        for ( var name in references )
         {
-            if ( element === null )
+            var setter = component[ "set_" + name ];
+            var reference = null; // $find( name ); // TODO
+            if( typeof ( setter ) !== "function" )
             {
-                throw Error.argument( "element", Res.createComponentOnDom );
+                throw Error.invalidOperation( String.format( Res.propertyNotWritable, name ) );
             }
-            component = new type( element );
-        }
-        else
-        {
-            component = new Component();
-        }
-
-        //var app = Application;
-        //var creatingComponents = app.get_isCreatingComponents();
-
-        component.beginUpdate();
-
-        if ( properties !== null )
-        {
-            Component._setProperties( component, properties );
-        }
-
-        if ( events !== null )
-        {
-            for ( let name in events )
+            if( !reference )
             {
-                if ( !( component[ "add_" + name ] instanceof Function ) )
-                {
-                    throw Error.invalidOperation( String.format( Res.undefinedEvent, name ) );
-                }
-                if ( !( events[ name ] instanceof Function ) )
-                {
-                    throw Error.invalidOperation( Res.eventHandlerNotFunction );
-                }
-                component[ "add_" + name ]( events[ name ] );
+                throw Error.invalidOperation( String.format( Res.referenceNotFound, name ) );
             }
+            setter.apply(component, [reference]);
         }
-
-        // if ( component.get_id() )
-        // {
-        //     app.addComponent(component);
-        // }
-        // if ( creatingComponents )
-        // {
-        //     app._createdComponents[app._createdComponents.length] = component;
-        //     if (references) {
-        //         app._addComponentToSecondPass(component, references);
-        //     }
-        //     else {
-        //         component.endUpdate();
-        //     }
-        // }
-        // else {
-        //     if (references) {
-        //         Sys$Component$_setReferences(component, references);
-        //     }
-        //     component.endUpdate();
-        // }
-
-        component.endUpdate();
-
-        return component;
-    }*/
+    }
 
     public static _setProperties( target: Component, properties: ComponentProps )
     {
@@ -300,4 +247,4 @@ class Component
     }
 }
 
-export { ComponentProps, ComponentEvents, Component }
+export { ComponentProps, ComponentEvents, ComponentReferences, Component }
