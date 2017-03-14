@@ -4,11 +4,13 @@
   "description": "## TypeScript port ot the Microsoft ASP.NET AJAX framework (MicrosoftAjax.js)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "node ./node_modules/webpack/bin/webpack.js",
+    "start": "node server.js"
   },
   "author": "Markus Mauch",
   "license": "MIT",
   "dependencies": {
+    "express": "^4.15.2",
     "ts-loader": "^2.0.1",
     "typescript": "^2.2.1",
     "webpack": "^2.2.1"

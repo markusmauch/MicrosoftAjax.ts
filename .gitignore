@@ -3,3 +3,6 @@
 **.js.map
 node_modules/**
 **/.DS_Store
+!server.js
+!webpack.config.jsS
+npm-debug.log
