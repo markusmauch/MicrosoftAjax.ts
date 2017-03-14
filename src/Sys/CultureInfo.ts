@@ -1,3 +1,4 @@
+
 interface NumberFormat
 {
     CurrencyDecimalDigits: number;
@@ -406,4 +407,4 @@ class CultureInfo
     }
 }
 
-export { CultureInfo }
+export { CultureInfo, NumberFormat, CalendarFormat }
