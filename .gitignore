@@ -3,6 +3,7 @@
 **.js.map
 node_modules/**
 **/.DS_Store
+npm-debug.log
 !server.js
 !webpack.config.jsS
-npm-debug.log
+!MicrosoftAjax.debug.js
