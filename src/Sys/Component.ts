@@ -190,7 +190,6 @@ class Component
         let targetType = Object.getType( target );
         let isObject = ( targetType === Object ) || ( targetType === DomElement );
         let isComponent = Component.isInstanceOfType( target ) && !target.get_isUpdating();
-        if ( isComponent ) target.beginUpdate();
 
         for ( let name in properties )
         {
@@ -243,7 +242,6 @@ class Component
                 }
             }
         }
-        if ( isComponent ) target.endUpdate();
     }
 }
 

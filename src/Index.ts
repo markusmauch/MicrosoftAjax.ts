@@ -68,7 +68,7 @@ let Net = {
 
 export // Sys
 {
-    //Application,
+    Application,
     ApplicationLoadEventArgs,
     Browser,
     CancelEventArgs,

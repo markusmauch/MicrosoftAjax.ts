@@ -48,6 +48,7 @@
       "test/StringBuilder.ts",
       "test/WebRequest.ts",
       "test/Control.ts",
-      "test/CultureInfo.ts"
+      "test/CultureInfo.ts",
+      "test/Application.ts"
   ]
 }

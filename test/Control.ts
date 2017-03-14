@@ -30,6 +30,7 @@ class MyControl extends Control
             let h = this.get_events().getHandler( "click" );
             if ( h !== null ) h( this );
         } );
+        super.initialize();
     }
 
     public get_title()
