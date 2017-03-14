@@ -5,7 +5,7 @@ function execute( test: string, callback: ( test: string, result: boolean ) => v
 {
     try
     {
-        var ci = CultureInfo.InvariantCulture;
+        var ci = CultureInfo.CurrentCulture;
         console.log( "Current Culture: " + ci.name );
         callback( test, true );
     }
