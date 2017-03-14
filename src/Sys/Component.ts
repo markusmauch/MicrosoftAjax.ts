@@ -166,21 +166,21 @@ class Component
     public updated()
     {}
 
-    public static _setReferences( component: Component, references: ComponentReferences ) // TODO
+    public static _setReferences( component: Component, references: ComponentReferences )
     {
-        for ( var name in references )
+        for ( let name in references )
         {
-            var setter = component[ "set_" + name ];
-            var reference = null; // $find( name ); // TODO
-            if( typeof ( setter ) !== "function" )
+            let setter = component[ "set_" + name ] as Function;
+            let reference = references[ name ]; // $find( name ); // TODO
+            if ( typeof ( setter ) !== "function" )
             {
                 throw Error.invalidOperation( String.format( Res.propertyNotWritable, name ) );
             }
-            if( !reference )
+            if ( !reference )
             {
                 throw Error.invalidOperation( String.format( Res.referenceNotFound, name ) );
             }
-            setter.apply(component, [reference]);
+            setter.apply( component, [ reference ] );
         }
     }
 
