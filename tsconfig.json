@@ -11,6 +11,7 @@
       "src/Global.ts",
       "src/Array.ts",
       "src/Boolean.ts",
+      "src/Date.ts",
       "src/Error.ts",
       "src/Function.ts",
       "src/Object.ts",
