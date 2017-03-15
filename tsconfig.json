@@ -10,6 +10,7 @@
       "src/Index.ts",
       "src/Global.ts",
       "src/Array.ts",
+      "src/Boolean.ts",
       "src/Error.ts",
       "src/Function.ts",
       "src/Object.ts",
