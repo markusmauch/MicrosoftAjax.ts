@@ -51,6 +51,7 @@
       "test/WebRequest.ts",
       "test/Control.ts",
       "test/CultureInfo.ts",
-      "test/Application.ts"
+      "test/Application.ts",
+      "test/Date.ts"
   ]
 }
