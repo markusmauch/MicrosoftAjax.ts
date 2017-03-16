@@ -5,9 +5,16 @@ function execute( test: string, callback: ( test: string, result: boolean ) => v
 {
     try
     {
-        let d = Date._parse( "13.03.2017", CultureInfo.CurrentCulture, [] );
-        if ( !d ) callback( test, false );
-        
+        let date = Date.parseLocal( "03.04.2017", "dd.MM.yyyy" );
+        if ( date !== null )
+        {
+            console.log( date.format( "yyyy-MM-dd" ) );
+            callback( test, true );
+        }
+        else
+        {
+            callback( test, false );    
+        }
     }
     catch ( error )
     {
