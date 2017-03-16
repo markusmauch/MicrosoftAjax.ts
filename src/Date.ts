@@ -4,8 +4,8 @@ import { Res } from "Sys/Res";
 
 interface ParseInfo
 {
-     regExp?: string,
-     groups?: string[];
+    regExp ? : string,
+        groups ? : string[];
 }
 
 declare global
@@ -31,6 +31,8 @@ declare global
          *      A string that contains the formatted date value.
          */
         localeFormat( format: string ): string;
+
+        _toFormattedString( format: string, cultureInfo: CultureInfo ): string;
     }
 
     interface DateConstructor
@@ -46,7 +48,7 @@ declare global
          * @returns
          *      If value is a valid string representation of a date, an object of type Date; otherwise, null.
          */
-        parseLocal( value: string, formats: string[] ): Date | null;
+        parseLocal( value: string, ...formats: string[] ): Date | null;
 
         /**
          * Creates a date from a string by using the invariant culture.
@@ -59,7 +61,7 @@ declare global
          * @returns
          *      If value is a valid string representation of a date in the invariant format, an object of type Date; otherwise, null.
          */
-        parseInvariant( value: string, formats: string[] ): Date | null;
+        parseInvariant( value: string, ...formats: string[] ): Date | null;
 
         _parse( value: string, cultureInfo: CultureInfo, args ): Date;
 
@@ -73,32 +75,252 @@ declare global
 
         _expandYear( dtf: DateTimeFormat, year: number ): number;
 
-        _getEra( date: Date, eras?: number[] ): number;
+        _getEra( date: Date, eras ? : number[] ): number;
 
-        _getEraYear( date: Date, dtf: DateTimeFormat, era: number, sortable?: boolean ): number;
+        _getEraYear( date: Date, dtf: DateTimeFormat, era: number, sortable ? : boolean ): number;
 
-        _expandFormat(dtf: DateTimeFormat, format:string): string;
+        _expandFormat( dtf: DateTimeFormat, format: string ): string;
     }
 }
 
 Date.prototype.format = function( format: string )
 {
-    return "";
+    return this._toFormattedString( format, CultureInfo.InvariantCulture );
 }
 
 Date.prototype.localeFormat = function( format: string )
 {
-    return "";
+    return this._toFormattedString( format, CultureInfo.CurrentCulture );
 }
 
-Date.parseLocal = function( value: string, formats: string[] )
+Date.prototype._toFormattedString = function( format: string, cultureInfo: CultureInfo )
 {
-    return null;
+    let dtf = cultureInfo.dateTimeFormat;
+    //let convert = dtf.Calendar.convert;
+    if ( !format || !format.length || ( format === 'i' ) )
+    {
+        if ( cultureInfo && cultureInfo.name.length )
+        {
+            var eraDate = new Date( this.getTime() );
+            var era = Date._getEra( this, dtf.eras );
+            eraDate.setFullYear( Date._getEraYear( this, dtf, era ) );
+            return eraDate.toLocaleString();
+        }
+        else
+        {
+            return this.toString();
+        }
+    }
+    var eras = dtf.eras,
+        sortable = ( format === "s" );
+    format = Date._expandFormat( dtf, format );
+    var ret = new StringBuilder();
+    var hour;
+
+    function addLeadingZero( num )
+    {
+        if ( num < 10 )
+        {
+            return '0' + num;
+        }
+        return num.toString();
+    }
+
+    function addLeadingZeros( num )
+    {
+        if ( num < 10 )
+        {
+            return '00' + num;
+        }
+        if ( num < 100 )
+        {
+            return '0' + num;
+        }
+        return num.toString();
+    }
+
+    function padYear( year )
+    {
+        if ( year < 10 )
+        {
+            return '000' + year;
+        }
+        else if ( year < 100 )
+        {
+            return '00' + year;
+        }
+        else if ( year < 1000 )
+        {
+            return '0' + year;
+        }
+        return year.toString();
+    }
+
+    var foundDay, checkedDay, dayPartRegExp = /([^d]|^)(d|dd)([^d]|$)/g;
+
+    function hasDay()
+    {
+        if ( foundDay || checkedDay )
+        {
+            return foundDay;
+        }
+        foundDay = dayPartRegExp.test( format );
+        checkedDay = true;
+        return foundDay;
+    }
+
+    var quoteCount = 0,
+        tokenRegExp = Date._getTokenRegExp(),
+        converted;
+    for ( ;; )
+    {
+        var index = tokenRegExp.lastIndex;
+        var ar = tokenRegExp.exec( format );
+        var preMatch = format.slice( index, ar ? ar.index : format.length );
+        quoteCount += Date._appendPreOrPostMatch( preMatch, ret );
+        if ( !ar ) break;
+        if ( ( quoteCount % 2 ) === 1 )
+        {
+            ret.append( ar[ 0 ] );
+            continue;
+        }
+
+        let getPart = ( date, part ) =>
+        {
+            if ( converted )
+            {
+                return converted[ part ];
+            }
+            switch ( part )
+            {
+                case 0:
+                    return date.getFullYear();
+                case 1:
+                    return date.getMonth();
+                case 2:
+                    return date.getDate();
+            }
+        }
+        switch ( ar[ 0 ] )
+        {
+            case "dddd":
+                ret.append( dtf.DayNames[ this.getDay() ] );
+                break;
+            case "ddd":
+                ret.append( dtf.AbbreviatedDayNames[ this.getDay() ] );
+                break;
+            case "dd":
+                foundDay = true;
+                ret.append( addLeadingZero( getPart( this, 2 ) ) );
+                break;
+            case "d":
+                foundDay = true;
+                ret.append( getPart( this, 2 ) );
+                break;
+            case "MMMM":
+                ret.append( ( dtf.MonthGenitiveNames && hasDay() ) ?
+                    dtf.MonthGenitiveNames[ getPart( this, 1 ) ] :
+                    dtf.MonthNames[ getPart( this, 1 ) ] );
+                break;
+            case "MMM":
+                ret.append( ( dtf.AbbreviatedMonthGenitiveNames && hasDay() ) ?
+                    dtf.AbbreviatedMonthGenitiveNames[ getPart( this, 1 ) ] :
+                    dtf.AbbreviatedMonthNames[ getPart( this, 1 ) ] );
+                break;
+            case "MM":
+                ret.append( addLeadingZero( getPart( this, 1 ) + 1 ) );
+                break;
+            case "M":
+                ret.append( getPart( this, 1 ) + 1 );
+                break;
+            case "yyyy":
+                ret.append( padYear( converted ? converted[ 0 ] : Date._getEraYear( this, dtf, Date._getEra( this, eras ), sortable ) ) );
+                break;
+            case "yy":
+                ret.append( addLeadingZero( ( converted ? converted[ 0 ] : Date._getEraYear( this, dtf, Date._getEra( this, eras ), sortable ) ) % 100 ) );
+                break;
+            case "y":
+                ret.append( ( ( converted ? converted[ 0 ] : Date._getEraYear( this, dtf, Date._getEra( this, eras ), sortable ) ) % 100 ).toString() );
+                break;
+            case "hh":
+                hour = this.getHours() % 12;
+                if ( hour === 0 ) hour = 12;
+                ret.append( addLeadingZero( hour ) );
+                break;
+            case "h":
+                hour = this.getHours() % 12;
+                if ( hour === 0 ) hour = 12;
+                ret.append( hour );
+                break;
+            case "HH":
+                ret.append( addLeadingZero( this.getHours() ) );
+                break;
+            case "H":
+                ret.append( this.getHours() );
+                break;
+            case "mm":
+                ret.append( addLeadingZero( this.getMinutes() ) );
+                break;
+            case "m":
+                ret.append( this.getMinutes() );
+                break;
+            case "ss":
+                ret.append( addLeadingZero( this.getSeconds() ) );
+                break;
+            case "s":
+                ret.append( this.getSeconds() );
+                break;
+            case "tt":
+                ret.append( ( this.getHours() < 12 ) ? dtf.AMDesignator : dtf.PMDesignator );
+                break;
+            case "t":
+                ret.append( ( ( this.getHours() < 12 ) ? dtf.AMDesignator : dtf.PMDesignator ).charAt( 0 ) );
+                break;
+            case "f":
+                ret.append( addLeadingZeros( this.getMilliseconds() ).charAt( 0 ) );
+                break;
+            case "ff":
+                ret.append( addLeadingZeros( this.getMilliseconds() ).substr( 0, 2 ) );
+                break;
+            case "fff":
+                ret.append( addLeadingZeros( this.getMilliseconds() ) );
+                break;
+            case "z":
+                hour = this.getTimezoneOffset() / 60;
+                ret.append( ( ( hour <= 0 ) ? '+' : '-' ) + Math.floor( Math.abs( hour ) ) );
+                break;
+            case "zz":
+                hour = this.getTimezoneOffset() / 60;
+                ret.append( ( ( hour <= 0 ) ? '+' : '-' ) + addLeadingZero( Math.floor( Math.abs( hour ) ) ) );
+                break;
+            case "zzz":
+                hour = this.getTimezoneOffset() / 60;
+                ret.append( ( ( hour <= 0 ) ? '+' : '-' ) + addLeadingZero( Math.floor( Math.abs( hour ) ) ) +
+                    ":" + addLeadingZero( Math.abs( this.getTimezoneOffset() % 60 ) ) );
+                break;
+            case "g":
+            case "gg":
+                if ( dtf.eras )
+                {
+                    ret.append( dtf.eras[ Date._getEra( this, eras ) + 1 ] );
+                }
+                break;
+            case "/":
+                ret.append( dtf.DateSeparator );
+                break;
+        }
+    }
+    return ret.toString();
 }
 
-Date.parseInvariant = function( value: string, formats: string[] )
+Date.parseLocal = function( value: string, ...formats: string[] )
 {
-    return null;
+    return Date._parse( value, CultureInfo.CurrentCulture, arguments );
+}
+
+Date.parseInvariant = function( value: string, ...formats: string[] )
+{
+    return Date._parse( value, CultureInfo.InvariantCulture, arguments );
 }
 
 Date._parse = function( value: string, cultureInfo: CultureInfo, args: string[] )
@@ -129,9 +351,9 @@ Date._parse = function( value: string, cultureInfo: CultureInfo, args: string[] 
 Date._parseExact = function( value: string, format: string, cultureInfo: CultureInfo )
 {
     value = value.trim();
-    var dtf = cultureInfo.dateTimeFormat,
-        parseInfo = Date._getParseRegExp( dtf, format ),
-        match = new RegExp( parseInfo.regExp ).exec( value );
+    let dtf = cultureInfo.dateTimeFormat;
+    let parseInfo = Date._getParseRegExp( dtf, format );
+    let match = new RegExp( parseInfo.regExp ).exec( value );
     if ( match === null ) return null;
 
     let groups = parseInfo.groups;
@@ -436,7 +658,7 @@ Date._expandYear = function( dtf: DateTimeFormat, year: number )
     return year;
 }
 
-Date._getEra = function( date: Date, eras?: number[] )
+Date._getEra = function( date: Date, eras ? : number[] )
 {
     if ( !eras ) return 0;
     var start, ticks = date.getTime();
@@ -451,7 +673,7 @@ Date._getEra = function( date: Date, eras?: number[] )
     return 0;
 }
 
-Date._getEraYear = function( date: Date, dtf: DateTimeFormat, era: number, sortable?: boolean )
+Date._getEraYear = function( date: Date, dtf: DateTimeFormat, era: number, sortable ? : boolean )
 {
     var year = date.getFullYear();
     if ( !sortable && dtf.eras )
@@ -461,13 +683,17 @@ Date._getEraYear = function( date: Date, dtf: DateTimeFormat, era: number, sorta
     return year;
 }
 
-Date._expandFormat = function(dtf: DateTimeFormat, format:string) {
-    if(!format) {
+Date._expandFormat = function( dtf: DateTimeFormat, format: string )
+{
+    if ( !format )
+    {
         format = "F";
     }
     var len = format.length;
-    if(len === 1) {
-        switch(format) {
+    if ( len === 1 )
+    {
+        switch ( format )
+        {
             case "d":
                 return dtf.ShortDatePattern;
             case "D":
@@ -480,18 +706,21 @@ Date._expandFormat = function(dtf: DateTimeFormat, format:string) {
                 return dtf.LongDatePattern + " " + dtf.ShortTimePattern;
             case "F":
                 return dtf.FullDateTimePattern;
-            case "M": case "m":
+            case "M":
+            case "m":
                 return dtf.MonthDayPattern;
             case "s":
                 return dtf.SortableDateTimePattern;
-            case "Y": case "y":
+            case "Y":
+            case "y":
                 return dtf.YearMonthPattern;
             default:
-                throw Error.format(Res.formatInvalidString);
+                throw Error.format( Res.formatInvalidString );
         }
     }
-    else if((len === 2) && (format.charAt(0) === "%")) {
-        format = format.charAt(1);
+    else if ( ( len === 2 ) && ( format.charAt( 0 ) === "%" ) )
+    {
+        format = format.charAt( 1 );
     }
     return format;
 }
