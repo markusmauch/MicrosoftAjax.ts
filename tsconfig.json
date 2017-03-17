@@ -7,6 +7,7 @@
   },
   "files": [
       /** src */
+      "src/FormattableObject.ts",
       "src/Index.ts",
       "src/Global.ts",
       "src/Array.ts",
@@ -14,6 +15,7 @@
       "src/Date.ts",
       "src/Error.ts",
       "src/Function.ts",
+      "src/Number.ts",
       "src/Object.ts",
       "src/String.ts",
       "src/Sys/Application.ts",
@@ -51,7 +53,6 @@
       "test/WebRequest.ts",
       "test/Control.ts",
       "test/CultureInfo.ts",
-      "test/Application.ts",
       "test/Date.ts"
   ]
 }
