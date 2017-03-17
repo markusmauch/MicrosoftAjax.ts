@@ -1,9 +1,11 @@
 
-import { ArrayExtensions } from "Array"
-import { ErrorExtensions } from "Error"
-import { FunctionExtensions } from "Function"
-import { ObjectExtensions } from "Object"
-import { StringExtensions } from "String"
+import "Array"
+import "Error"
+import "Function"
+import "Object"
+import "String"
+import "Number"
+import "Boolean"
 import { Application } from "Sys/Application"
 import { ApplicationLoadEventArgs } from "Sys/ApplicationLoadEventArgs"
 import { Browser } from "Sys/Browser"
@@ -34,12 +36,6 @@ import { WebServiceProxy } from "Sys/Net/WebServiceProxy"
 import { XMLDOM } from "Sys/Net/XMLDOM"
 import { XMLHttpExecutor } from "Sys/Net/XMLHttpExecutor"
 
-ArrayExtensions();
-ErrorExtensions();
-FunctionExtensions();
-ObjectExtensions();
-StringExtensions();
-
 let Serialization =
 {
     JavaScriptSerializer: JavaScriptSerializer,
@@ -68,7 +64,7 @@ let Net = {
 
 export // Sys
 {
-    Application,
+    //Application,
     ApplicationLoadEventArgs,
     Browser,
     CancelEventArgs,

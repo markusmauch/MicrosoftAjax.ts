@@ -8,24 +8,21 @@ declare global
     }
 }
 
-function ObjectExtensions()
+Object.getType = ( instance: any ) =>
 {
-    Object.getType = ( instance: any ) =>
+    let ctor = instance.constructor;
+    if ( !ctor || ( typeof( ctor ) !== "function" ) )
     {
-        let ctor = instance.constructor;
-        if ( !ctor || ( typeof( ctor ) !== "function" ) )
-        {
-            return Object;
-        }
-        return ctor;
+        return Object;
     }
-
-    Object.getTypeName = ( instance: any ) =>
-    {
-        let constructorString = instance.constructor.toString();
-        return constructorString.match( /\w+/g )[1]; 
-    }
+    return ctor;
 }
 
-export { ObjectExtensions }
+Object.getTypeName = ( instance: any ) =>
+{
+    let constructorString = instance.constructor.toString();
+    return constructorString.match( /\w+/g )[1]; 
+}
+
+export {}
 

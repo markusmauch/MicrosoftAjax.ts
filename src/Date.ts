@@ -1,38 +1,18 @@
 import { CultureInfo, DateTimeFormat } from "Sys/CultureInfo";
 import { StringBuilder } from "Sys/StringBuilder";
 import { Res } from "Sys/Res";
+import { FormattableObject } from "FormattableObject";
 
 interface ParseInfo
 {
     regExp ? : string,
-        groups ? : string[];
+    groups ? : string[];
 }
 
 declare global
 {
-    interface Date
+    interface Date extends FormattableObject
     {
-        /**
-         * Formats a date by using the invariant (culture-independent) culture.
-         * 
-         * @param format
-         *       A format string.
-         * @returns
-         *      A string that contains the formatted date value.
-         */
-        format( format: string );
-
-        /**
-         * Formats a date by using the current culture.
-         * 
-         * @param format
-         *       A format string.
-         * @returns
-         *      A string that contains the formatted date value.
-         */
-        localeFormat( format: string ): string;
-
-        _toFormattedString( format: string, cultureInfo: CultureInfo ): string;
     }
 
     interface DateConstructor

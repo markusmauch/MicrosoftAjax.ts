@@ -89,125 +89,122 @@ declare global
     }
 }
 
-function ErrorExtensions()
+Error.argument = ( paramName?: any, message?: string ) =>
 {
-    Error.argument = ( paramName?: any, message?: string ) =>
+    let displayMessage = "Sys.ArgumentException: " + ( message ? message : Res.argument );
+    if ( paramName )
     {
-        let displayMessage = "Sys.ArgumentException: " + ( message ? message : Res.argument );
-        if ( paramName )
-        {
-            displayMessage += "\n" + String.format( Res.paramName, paramName );
-        }
-        let err = Error.create( displayMessage, { name: "Sys.ArgumentException", paramName: paramName } );
-        err.popStackFrame();
-        return err;
+        displayMessage += "\n" + String.format( Res.paramName, paramName );
     }
-
-    Error.argumentNull = ( paramName?: string, message?: string ) =>
-    {
-        let displayMessage = "Sys.ArgumentNullException: " + ( message ? message : Res.argumentNull );
-        if ( paramName )
-        {
-            displayMessage += "\n" + String.format( Res.paramName, paramName );
-        }
-        let err = Error.create( displayMessage, { name: "Sys.ArgumentNullException", paramName: paramName || "" } );
-        err.popStackFrame();
-        return err;
-    }
-
-    Error.argumentOutOfRange = ( paramName?: string, actualValue?: any, message?: string  ) =>
-    {
-        let displayMessage = "Sys.ArgumentOutOfRangeException: " + ( message ? message : Res.argumentOutOfRange );
-        if ( paramName )
-        {
-            displayMessage += "\n" + String.format( Res.paramName, paramName );
-        }
-        if ( typeof( actualValue ) !== "undefined" && actualValue !== null )
-        {
-            displayMessage += "\n" + String.format( Res.actualValue, actualValue );
-        }
-        let err = Error.create(
-            displayMessage, {
-                name: "Sys.ArgumentOutOfRangeException",
-                paramName: paramName || "",
-                actualValue: actualValue || ""
-            } );
-        err.popStackFrame();
-        return err;
-    }
-
-    Error.create = ( message?: string, errorInfo?: ErrorInfo ) =>
-    {
-        message = message || "";
-        let err = new Error( message );
-        err.message = message;
-        if ( errorInfo !== undefined )
-        {
-            for ( let v in errorInfo )
-            {
-                err[v] = errorInfo[v];
-            }
-        }
-        err.popStackFrame();
-        return err;
-    }
-
-    Error.format = ( message?: string ) =>
-    {
-        let displayMessage = "Sys.InvalidOperationException: " + ( message ? message : Res.invalidOperation );
-        let err = Error.create( displayMessage, { name: 'Sys.InvalidOperationException' } );
-        err.popStackFrame();
-        return err;
-    }
-
-    Error.invalidOperation = ( message: string | null ) =>
-    {
-        let displayMessage = "Sys.InvalidOperationException: " + ( message ? message : Res.invalidOperation );
-        let err = Error.create( displayMessage, { name: 'Sys.InvalidOperationException' } );
-        err.popStackFrame();
-        return err;
-    }
-
-    Error.notImplemented = ( message?: string ) =>
-    {
-        let displayMessage = "Sys.NotImplementedException: " + ( message ? message : Res.notImplemented );
-        let err = Error.create( displayMessage, { name: 'Sys.NotImplementedException' } );
-        err.popStackFrame();
-        return err;
-    }
-
-    Error.prototype.popStackFrame = () =>
-    {
-        if ( typeof( this.stack ) === "undefined" || this.stack === null ||
-            typeof( this.fileName ) === "undefined" || this.fileName === null ||
-            typeof( this.lineNumber ) === "undefined" || this.lineNumber === null )
-        {
-            return;
-        }
-        let stackFrames = this.stack.split("\n");
-        let currentFrame = stackFrames[0];
-        let pattern = this.fileName + ":" + this.lineNumber;
-        while( typeof( currentFrame ) !== "undefined" &&
-            currentFrame !== null &&
-            currentFrame.indexOf( pattern ) === -1) {
-            stackFrames.shift();
-            currentFrame = stackFrames[0];
-        }
-        let nextFrame = stackFrames[1];
-        if ( typeof (nextFrame ) === "undefined" || nextFrame === null )
-        {
-            return;
-        }
-        let nextFrameParts = nextFrame.match( /@(.*):(\d+)$/ );
-        if ( typeof( nextFrameParts ) === "undefined" || nextFrameParts === null )
-        {
-            return;
-        }
-        this.fileName = nextFrameParts[1];
-        this.lineNumber = parseInt( nextFrameParts[2] );
-        stackFrames.shift();
-        this.stack = stackFrames.join( "\n" );
-    }
+    let err = Error.create( displayMessage, { name: "Sys.ArgumentException", paramName: paramName } );
+    err.popStackFrame();
+    return err;
 }
 
-export { ErrorExtensions, ErrorInfo }
+Error.argumentNull = ( paramName?: string, message?: string ) =>
+{
+    let displayMessage = "Sys.ArgumentNullException: " + ( message ? message : Res.argumentNull );
+    if ( paramName )
+    {
+        displayMessage += "\n" + String.format( Res.paramName, paramName );
+    }
+    let err = Error.create( displayMessage, { name: "Sys.ArgumentNullException", paramName: paramName || "" } );
+    err.popStackFrame();
+    return err;
+}
+
+Error.argumentOutOfRange = ( paramName?: string, actualValue?: any, message?: string  ) =>
+{
+    let displayMessage = "Sys.ArgumentOutOfRangeException: " + ( message ? message : Res.argumentOutOfRange );
+    if ( paramName )
+    {
+        displayMessage += "\n" + String.format( Res.paramName, paramName );
+    }
+    if ( typeof( actualValue ) !== "undefined" && actualValue !== null )
+    {
+        displayMessage += "\n" + String.format( Res.actualValue, actualValue );
+    }
+    let err = Error.create(
+        displayMessage, {
+            name: "Sys.ArgumentOutOfRangeException",
+            paramName: paramName || "",
+            actualValue: actualValue || ""
+        } );
+    err.popStackFrame();
+    return err;
+}
+
+Error.create = ( message?: string, errorInfo?: ErrorInfo ) =>
+{
+    message = message || "";
+    let err = new Error( message );
+    err.message = message;
+    if ( errorInfo !== undefined )
+    {
+        for ( let v in errorInfo )
+        {
+            err[v] = errorInfo[v];
+        }
+    }
+    err.popStackFrame();
+    return err;
+}
+
+Error.format = ( message?: string ) =>
+{
+    let displayMessage = "Sys.InvalidOperationException: " + ( message ? message : Res.invalidOperation );
+    let err = Error.create( displayMessage, { name: 'Sys.InvalidOperationException' } );
+    err.popStackFrame();
+    return err;
+}
+
+Error.invalidOperation = ( message: string | null ) =>
+{
+    let displayMessage = "Sys.InvalidOperationException: " + ( message ? message : Res.invalidOperation );
+    let err = Error.create( displayMessage, { name: 'Sys.InvalidOperationException' } );
+    err.popStackFrame();
+    return err;
+}
+
+Error.notImplemented = ( message?: string ) =>
+{
+    let displayMessage = "Sys.NotImplementedException: " + ( message ? message : Res.notImplemented );
+    let err = Error.create( displayMessage, { name: 'Sys.NotImplementedException' } );
+    err.popStackFrame();
+    return err;
+}
+
+Error.prototype.popStackFrame = () =>
+{
+    if ( typeof( this.stack ) === "undefined" || this.stack === null ||
+        typeof( this.fileName ) === "undefined" || this.fileName === null ||
+        typeof( this.lineNumber ) === "undefined" || this.lineNumber === null )
+    {
+        return;
+    }
+    let stackFrames = this.stack.split("\n");
+    let currentFrame = stackFrames[0];
+    let pattern = this.fileName + ":" + this.lineNumber;
+    while( typeof( currentFrame ) !== "undefined" &&
+        currentFrame !== null &&
+        currentFrame.indexOf( pattern ) === -1) {
+        stackFrames.shift();
+        currentFrame = stackFrames[0];
+    }
+    let nextFrame = stackFrames[1];
+    if ( typeof (nextFrame ) === "undefined" || nextFrame === null )
+    {
+        return;
+    }
+    let nextFrameParts = nextFrame.match( /@(.*):(\d+)$/ );
+    if ( typeof( nextFrameParts ) === "undefined" || nextFrameParts === null )
+    {
+        return;
+    }
+    this.fileName = nextFrameParts[1];
+    this.lineNumber = parseInt( nextFrameParts[2] );
+    stackFrames.shift();
+    this.stack = stackFrames.join( "\n" );
+}
+
+export { ErrorInfo }

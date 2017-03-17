@@ -125,89 +125,86 @@ declare global
     }
 }
 
-function ArrayExtensions()
+Array.add = <T>( array: T[], item: T ) =>
 {
-    Array.add = <T>( array: T[], item: T ) =>
+    array[ array.length ] = item;
+}
+
+Array.addRange = <T>( array: T[], items: T[] ) =>
+{
+    array.push.apply( array, items );
+}
+
+Array.clear = <T>( array: T[] ) =>
+{
+    array.length = 0;
+}
+
+Array.clone = <T>( array: T[] ) =>
+{
+    if ( array.length === 1 )
     {
-        array[ array.length ] = item;
+        return [ array[ 0 ] ];
     }
-
-    Array.addRange = <T>( array: T[], items: T[] ) =>
+    else
     {
-        array.push.apply( array, items );
+        return Array.apply( null, array );
     }
+};
 
-    Array.clear = <T>( array: T[] ) =>
+Array.contains = <T>( array: T[], item: T ) =>
+{
+    return array.indexOf( item ) !== -1;
+}
+
+Array.dequeue = <T>( array: T[] ) =>
+{
+    return array.shift();
+}
+
+Array.enqueue = Array.add;
+
+Array.forEach = < T, C > ( array: T[], callback: ( context: C, item: T, index: number, array: T[] ) => void, context: C ) =>
+{
+    for ( let i = 0, l = array.length; i < l; i++ )
     {
-        array.length = 0;
-    }
-
-    Array.clone = <T>( array: T[] ) =>
-    {
-        if ( array.length === 1 )
-        {
-            return [ array[ 0 ] ];
-        }
-        else
-        {
-            return Array.apply( null, array );
-        }
-    };
-
-    Array.contains = <T>( array: T[], item: T ) =>
-    {
-        return array.indexOf( item ) !== -1;
-    }
-
-    Array.dequeue = <T>( array: T[] ) =>
-    {
-        return array.shift();
-    }
-
-    Array.enqueue = Array.add;
-
-    Array.forEach = < T, C > ( array: T[], callback: ( context: C, item: T, index: number, array: T[] ) => void, context: C ) =>
-    {
-        for ( let i = 0, l = array.length; i < l; i++ )
-        {
-            let elt = array[ i ];
-            if ( elt !== undefined ) callback.apply( context, [ elt, i, array ] );
-        }
-    }
-
-    Array.indexOf = <T>( array: T[], item: T, startIndex = 0 ) =>
-    {
-        var rest = array.slice( startIndex );
-        return rest.indexOf( item );
-    }
-
-    Array.insert = <T>( array: T[], index: number, item: T ) =>
-    {
-        array.splice( index, 0, item );
-    }
-
-    Array.parse = <T>( value ? : string ) =>
-    {
-        if ( value === undefined ) return [];
-        let v = eval( value );
-        if ( !Array.isInstanceOfType( v ) ) throw Error.argument( "value", Res.arrayParseBadFormat );
-        return v;
-    }
-
-    Array.remove = <T>( array: T[], item: T ) =>
-    {
-        let index = array.indexOf( item );
-        if ( index >= 0 )
-        {
-            array.splice( index, 1 );
-        }
-        return ( index >= 0 );
-    }
-
-    Array.removeAt = <T>( array: T[], index: number ) =>
-    {
-        array.splice( index, 1 );
+        let elt = array[ i ];
+        if ( elt !== undefined ) callback.apply( context, [ elt, i, array ] );
     }
 }
 
-export { ArrayExtensions }
+Array.indexOf = <T>( array: T[], item: T, startIndex = 0 ) =>
+{
+    var rest = array.slice( startIndex );
+    return rest.indexOf( item );
+}
+
+Array.insert = <T>( array: T[], index: number, item: T ) =>
+{
+    array.splice( index, 0, item );
+}
+
+Array.parse = <T>( value ? : string ) =>
+{
+    if ( value === undefined ) return [];
+    let v = eval( value );
+    if ( !Array.isInstanceOfType( v ) ) throw Error.argument( "value", Res.arrayParseBadFormat );
+    return v;
+}
+
+Array.remove = <T>( array: T[], item: T ) =>
+{
+    let index = array.indexOf( item );
+    if ( index >= 0 )
+    {
+        array.splice( index, 1 );
+    }
+    return ( index >= 0 );
+}
+
+Array.removeAt = <T>( array: T[], index: number ) =>
+{
+    array.splice( index, 1 );
+}
+
+export {}

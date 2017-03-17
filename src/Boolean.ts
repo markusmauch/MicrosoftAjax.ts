@@ -17,15 +17,12 @@ declare global
     }
 }
 
-function BooleanExtensions()
+Boolean.parse = ( value: string ) =>
 {
-    Boolean.parse = ( value: string ) =>
-    {
-        let v = value.trim().toLowerCase();
-        if ( v === "false" ) return false;
-        if ( v === "true" ) return true;
-        throw Error.argumentOutOfRange( "value", value, Res.boolTrueOrFalse );
-    }
+    let v = value.trim().toLowerCase();
+    if ( v === "false" ) return false;
+    if ( v === "true" ) return true;
+    throw Error.argumentOutOfRange( "value", value, Res.boolTrueOrFalse );
 }
 
-export { BooleanExtensions }
+export {}

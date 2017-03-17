@@ -5,6 +5,7 @@ import { Control } from "Sys/UI/Control"
 import { Behavior } from "Sys/UI/Behavior"
 import { DomElement } from "Sys/UI/DomElement"
 import { Application, IContainer } from "Sys/Application"
+import { CultureInfo } from "Sys/CultureInfo"
 
 function $create<C extends Component, P extends ComponentProps> (
     type:

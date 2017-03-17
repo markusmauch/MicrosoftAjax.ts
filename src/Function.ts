@@ -58,39 +58,36 @@ declare global
     }
 }
 
-function FunctionExtensions()
+Function.createDelegate = ( instance: any, method: Function ) =>
 {
-    Function.createDelegate = ( instance: any, method: Function ) =>
+    return function()
     {
-        return function()
-        {
-            return method.apply( instance, arguments );
-        }
+        return method.apply( instance, arguments );
     }
-
-    Function.emptyMethod = () => {};
-
-    Function.prototype.getName = function()
-    {
-        return Object.getTypeName( this );
-    }
-
-    Function.prototype.isInstanceOfType = function( instance: any )
-    {
-        return instance instanceof this;
-    }
-
-    Function.prototype.implementsInterface = function( interfaceType: Function )
-    {
-        return this instanceof interfaceType;
-    }
-
-    Function.prototype.inheritsFrom = function( parentType: Function )
-    {
-        return this.prototype instanceof parentType;
-    }
-
-    let Type = Function;
 }
 
-export { FunctionExtensions }
+Function.emptyMethod = () => {};
+
+Function.prototype.getName = function()
+{
+    return Object.getTypeName( this );
+}
+
+Function.prototype.isInstanceOfType = function( instance: any )
+{
+    return instance instanceof this;
+}
+
+Function.prototype.implementsInterface = function( interfaceType: Function )
+{
+    return this instanceof interfaceType;
+}
+
+Function.prototype.inheritsFrom = function( parentType: Function )
+{
+    return this.prototype instanceof parentType;
+}
+
+let Type = Function;
+
+export {}
