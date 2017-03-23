@@ -5,7 +5,7 @@
 This is a lightweight re-implmentation of the ASP.NET AJAX framework with TypeScript.
 This work may facilitate the migration of legacy ASP.NET AJAX web applications to TypeScript.
 The goal of this project is to be as compatible as possible with the API of the original framework while the implementation behind the API is being refactored and optimized.
-New ES5 features such as array manipulation methodes or HTML5 features such as the browser history API are mapped to native calls.
+New ES5 features such as array manipulation functions or HTML5 features such as the browser history API are mapped to native calls.
 
 Some parts of the original library, however, will not be migrated.
 These parts comprise missing languages features in JavaScript that are a natural part of TypeScript such as the class registration and derivation schemes (```Type.registerNamespace()```, ```Type.registerClass()```, etc.).
