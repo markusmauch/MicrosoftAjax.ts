@@ -8,7 +8,7 @@ This work may facilitate the migragation of legacy ASP.NET AJAX web applications
 
 Some parts of the original library will not be migrated.
 These parts almost always comprise missing languages features in JavaScript that are a natural part of TypeScript such as the class registration and derivation schemes (```Type.registerNamespace()```, ```Type.registerClass()```, etc.).
-While some parts of the library that are obsolete will not be included, this is still work in progress.
+Please note that while some parts of the library that are obsolete will not be included, this is still work in progress.
 
 Usage:
 
