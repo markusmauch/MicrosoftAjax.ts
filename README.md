@@ -9,9 +9,10 @@ New ES5 features such as array manipulation methodes or HTML5 features such as t
 
 Some parts of the original library, however, will not be migrated.
 These parts comprise missing languages features in JavaScript that are a natural part of TypeScript such as the class registration and derivation schemes (```Type.registerNamespace()```, ```Type.registerClass()```, etc.).
+
 Please note that while some parts of the library that are obsolete will not be included, this is still work in progress.
 
-Usage:
+_Usage_:
 
 Clone the repository and intiate the NPM package:
 
