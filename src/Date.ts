@@ -9,6 +9,11 @@ interface ParseInfo
     groups ? : string[];
 }
 
+interface ExtendedDateTimeFormat extends DateTimeFormat
+{
+    _parseRegExp: { [format: string]: { regExp: string, groups: string[] } }
+}
+
 declare global
 {
     interface Date extends FormattableObject
@@ -499,7 +504,7 @@ Date._parseExact = function( value: string, format: string, cultureInfo: Culture
     return result;
 }
 
-Date._getParseRegExp = function( dtf: DateTimeFormat, format: string )
+Date._getParseRegExp = function( dtf: ExtendedDateTimeFormat, format: string )
 {
     if ( !dtf._parseRegExp )
     {
@@ -585,7 +590,7 @@ Date._getParseRegExp = function( dtf: DateTimeFormat, format: string )
     Date._appendPreOrPostMatch( expFormat.slice( index ), regexp );
     regexp.append( "$" );
     var regexpStr = regexp.toString().replace( /\s+/g, "\\s+" );
-    var parseRegExp = { 'regExp': regexpStr, 'groups': groups };
+    var parseRegExp = { regExp: regexpStr, groups: groups };
     dtf._parseRegExp[ format ] = parseRegExp;
     return parseRegExp;
 }

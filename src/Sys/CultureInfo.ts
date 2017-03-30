@@ -407,4 +407,4 @@ class CultureInfo
     }
 }
 
-export { CultureInfo, NumberFormat, CalendarFormat }
+export { CultureInfo, NumberFormat, DateTimeFormat, CalendarFormat }
