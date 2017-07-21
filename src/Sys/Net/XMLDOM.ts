@@ -1,42 +1,39 @@
-
-declare global
+interface Window
 {
-    interface Window
-    {
-        readonly DOMParser: any;
-    }
+    readonly DOMParser: any;
 }
 
-function XMLDOM( markup )
+namespace Sys.Net
 {
-    if ( !window.DOMParser )
+    export function XMLDOM( markup )
     {
-        let progIDs = [ 'Msxml2.DOMDocument.3.0', 'Msxml2.DOMDocument' ];
-        for ( let i = 0, l = progIDs.length; i < l; i++ )
+        if ( !window.DOMParser )
+        {
+            let progIDs = [ 'Msxml2.DOMDocument.3.0', 'Msxml2.DOMDocument' ];
+            for ( let i = 0, l = progIDs.length; i < l; i++ )
+            {
+                try
+                {
+                    let xmlDOM = new ActiveXObject( progIDs[ i ] );
+                    xmlDOM.async = false;
+                    xmlDOM.loadXML( markup );
+                    xmlDOM.setProperty( 'SelectionLanguage', 'XPath' );
+                    return xmlDOM;
+                }
+                catch ( ex )
+                {}
+            }
+        }
+        else
         {
             try
             {
-                let xmlDOM = new ActiveXObject( progIDs[ i ] );
-                xmlDOM.async = false;
-                xmlDOM.loadXML( markup );
-                xmlDOM.setProperty( 'SelectionLanguage', 'XPath' );
-                return xmlDOM;
+                let domParser = new window.DOMParser();
+                return domParser.parseFromString( markup, 'text/xml' );
             }
             catch ( ex )
             {}
         }
+        return null;
     }
-    else
-    {
-        try
-        {
-            let domParser = new window.DOMParser();
-            return domParser.parseFromString( markup, 'text/xml' );
-        }
-        catch ( ex )
-        {}
-    }
-    return null;
 }
-
-export { XMLDOM }

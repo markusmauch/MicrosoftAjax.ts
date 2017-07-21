@@ -1,18 +1,18 @@
-import { EventArgs } from "Sys/EventArgs"
-
-class HistoryEventArgs extends EventArgs
+namespace Sys
 {
-    private _state: PopStateEvent;
-
-    constructor( state: PopStateEvent )
+    export class HistoryEventArgs extends Sys.EventArgs
     {
-        super();
+        private _state: PopStateEvent;
+
+        constructor( state: PopStateEvent )
+        {
+            super();
+        }
+
+        public get_state()
+        {
+            return this._state;
+        }
     }
 
-    public get_state()
-    {
-        return this._state;
-    }
 }
-
-export { HistoryEventArgs }

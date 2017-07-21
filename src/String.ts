@@ -1,89 +1,82 @@
-
-import { Res } from "Sys/Res"
-import { FormattableObject } from "FormattableObject";
-
 type FormatArgument = string | FormattableObject | CustomFormatObject;
 type CustomFormatObject = { toFormattedString: ( value: string ) => string; };
 
-declare global
+interface String
 {
-    interface String
-    {
-        /**
-         * Determines whether the start of a String object matches a specified string.
-         *
-         * @param prefix
-         *      The string to match with the start of the String object.
-         * @returns
-         *      true if the start of the String object matches prefix; otherwise, false.
-         */
-        startsWith( prefix: string): boolean;
+    /**
+     * Determines whether the start of a String object matches a specified string.
+     *
+     * @param prefix
+     *      The string to match with the start of the String object.
+     * @returns
+     *      true if the start of the String object matches prefix; otherwise, false.
+     */
+    startsWith( prefix: string): boolean;
 
-        /**
-         * Determines whether the end of a String object matches a specified string.
-         * 
-         * @param suffix
-         *      The string to match with the end of the String object.
-         * @returns
-         *      true  if the end of the String object matches suffix; otherwise, false.
-         */
-        endsWith( suffix: string ): boolean;
+    /**
+     * Determines whether the end of a String object matches a specified string.
+     *
+     * @param suffix
+     *      The string to match with the end of the String object.
+     * @returns
+     *      true  if the end of the String object matches suffix; otherwise, false.
+     */
+    endsWith( suffix: string ): boolean;
 
-        /**
-         * Removes leading and trailing white-space characters from a String object.
-         * 
-         * @returns
-         *      A copy of the string with all white-space characters removed from the start and end of the string.
-         */
-        //trim(): string; // exists in ES5
+    /**
+     * Removes leading and trailing white-space characters from a String object.
+     *
+     * @returns
+     *      A copy of the string with all white-space characters removed from the start and end of the string.
+     */
+    //trim(): string; // exists in ES5
 
-        /**
-         * Removes trailing white-space characters from a String object.
-         * 
-         * @returns
-         *      A copy of the string with all white-space characters removed from the end of the string.
-         */
-        trimEnd(): string;
+    /**
+     * Removes trailing white-space characters from a String object.
+     *
+     * @returns
+     *      A copy of the string with all white-space characters removed from the end of the string.
+     */
+    trimEnd(): string;
 
-        /**
-         * Removes leading white-space characters from a String object.
-         * 
-         * @returns
-         *      A copy of the string with all white-space characters removed from the start of the string.
-         */
-        trimStart(): string;
-        
-    }
+    /**
+     * Removes leading white-space characters from a String object.
+     *
+     * @returns
+     *      A copy of the string with all white-space characters removed from the start of the string.
+     */
+    trimStart(): string;
 
-    interface StringConstructor
-    {
-        /**
-         * Replaces each format item in a String object with the text equivalent of a corresponding object's value.
-         * 
-         * @param format
-         *      A format string.
-         * @param args
-         *      An array of objects to format.
-         * @returns
-         *      A copy of the string with the formatting applied.
-         */
-        format( format: string, ...args: FormatArgument[] ): string;
-        
-        /**
-         * Replaces the format items in a String object with the text equivalent of a corresponding object's value.
-         * The current culture is used to format dates and numbers.
-         * 
-         * @param format
-         *      A format string.
-         * @param args
-         *      An array of objects to format.
-         * @returns
-         *      A copy of the string with the formatting applied.
-         */
-        localeFormat( format: string, ...args: FormatArgument[] ): string;
+}
 
-        _toFormattedString( useLocale: boolean, format: string, args: FormatArgument[] ): string;
-    }
+interface StringConstructor
+{
+    /**
+     * Replaces each format item in a String object with the text equivalent of a corresponding object's value.
+     *
+     * @param format
+     *      A format string.
+     * @param args
+     *      An array of objects to format.
+     * @returns
+     *      A copy of the string with the formatting applied.
+     */
+    format( format: string, ...args: FormatArgument[] ): string;
+
+    /**
+     * Replaces the format items in a String object with the text equivalent of a corresponding object's value.
+     * The current culture is used to format dates and numbers.
+     *
+     * @param format
+     *      A format string.
+     * @param args
+     *      An array of objects to format.
+     * @returns
+     *      A copy of the string with the formatting applied.
+     */
+    localeFormat( format: string, ...args: FormatArgument[] ): string;
+
+    _toFormattedString( useLocale: boolean, format: string, args: FormatArgument[] ): string;
 }
 
 String.prototype.startsWith = function( prefix: string )
@@ -132,7 +125,7 @@ String._toFormattedString = ( useLocale: boolean, format: string, args: FormatAr
         {
             if (format.charAt(close + 1) !== '}')
             {
-                throw Error.argument('format', Res.stringFormatBraceMismatch);
+                throw Error.argument('format', Sys.Res.stringFormatBraceMismatch);
             }
             result += format.slice( i, close + 1 );
             i = close + 2;
@@ -146,17 +139,17 @@ String._toFormattedString = ( useLocale: boolean, format: string, args: FormatAr
             i++;
             continue;
         }
-        if ( close < 0 ) 
+        if ( close < 0 )
         {
-            throw Error.argument('format', Res.stringFormatBraceMismatch);
+            throw Error.argument('format', Sys.Res.stringFormatBraceMismatch);
         }
         let brace = format.substring( i, close );
         let colonIndex = brace.indexOf( ":" );
         let argNumber = parseInt( ( colonIndex < 0 )
             ? brace
             : brace.substring( 0, colonIndex ), 10 );
-        if ( isNaN( argNumber ) ) 
-            throw Error.argument( "format", Res.stringFormatInvalid );
+        if ( isNaN( argNumber ) )
+            throw Error.argument( "format", Sys.Res.stringFormatInvalid );
         let argFormat = ( colonIndex < 0 )
             ? ''
             : brace.substring( colonIndex + 1 );
@@ -178,7 +171,7 @@ String._toFormattedString = ( useLocale: boolean, format: string, args: FormatAr
         {
             result += ( <FormattableObject>arg ).format( argFormat );
         }
-        else 
+        else
         {
             result += arg.toString();
         }
@@ -186,5 +179,3 @@ String._toFormattedString = ( useLocale: boolean, format: string, args: FormatAr
     }
     return result;
 }
-
-export {};

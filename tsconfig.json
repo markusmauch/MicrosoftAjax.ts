@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "module": "none",
     "target": "es5",
-    "baseUrl": "./src/"
+    "baseUrl": "./src/",
+    //"sourceMap": true,
+    "inlineSourceMap": true,
+    "outFile": "out/MicrosoftAjax.debug.js"
   },
   "files": [
       /** src */
@@ -18,13 +20,14 @@
       "src/Number.ts",
       "src/Object.ts",
       "src/String.ts",
-      "src/Sys/Application.ts",
+      "src/Sys/EventHandlerList.ts",
+      //"src/Sys/Application.ts",
+      "src/Sys/Component.ts",
+      "src/Sys/EventArgs.ts",
+      "src/Sys/ApplicationLoadEventArgs.ts",
       "src/Sys/Browser.ts",
       "src/Sys/CancelEventArgs.ts",
-      "src/Sys/Component.ts",
       "src/Sys/CultureInfo.ts",
-      "src/Sys/EventArgs.ts",
-      "src/Sys/EventHandlerList.ts",
       "src/Sys/HistoryEventArgs.ts",
       "src/Sys/Res.ts",
       "src/Sys/StringBuilder.ts",
@@ -47,12 +50,12 @@
       "src/Sys/Net/XMLDOM.ts",
       "src/Sys/Net/XMLHttpExecutor.ts",
 
-      /** test */
-      "test/Index.ts",
-      "test/StringBuilder.ts",
-      "test/WebRequest.ts",
-      "test/Control.ts",
-      "test/CultureInfo.ts",
-      "test/Date.ts"
+      // /** test */
+      "test/Index.ts"
+      // "test/StringBuilder.ts",
+      // "test/WebRequest.ts",
+      // "test/Control.ts",
+      // "test/CultureInfo.ts",
+      // "test/Date.ts"
   ]
 }

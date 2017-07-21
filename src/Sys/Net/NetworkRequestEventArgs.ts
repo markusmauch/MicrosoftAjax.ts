@@ -1,30 +1,28 @@
 
-import { CancelEventArgs } from "Sys/CancelEventArgs"
-import { WebRequest } from "Sys/Net/WebRequest"
-
-/**
- * Contains information about a Web request that is ready to be sent to the current Sys.Net.WebRequestExecutor instance.
- */
-class NetworkRequestEventArgs extends CancelEventArgs
+namespace Sys.Net
 {
-	private _webRequest: WebRequest;
-
 	/**
-	 * Initializes a new instance of the {@link Sys.Net.NetworkRequestEventArgs} class.
+	 * Contains information about a Web request that is ready to be sent to the current Sys.Net.WebRequestExecutor instance.
 	 */
-	constructor( webRequest: WebRequest )
+	export class NetworkRequestEventArgs extends Sys.CancelEventArgs
 	{
-		super();
-		this._webRequest = webRequest;
-	}
+		private _webRequest: Sys.Net.WebRequest;
 
-	/**
-	 * Gets the Web request to be routed to the current Sys.Net.WebRequestExecutor instance.
-	 */
-	public get_webRequest()
-	{
-		return this._webRequest;
+		/**
+		 * Initializes a new instance of the {@link Sys.Net.NetworkRequestEventArgs} class.
+		 */
+		constructor( webRequest: Sys.Net.WebRequest )
+		{
+			super();
+			this._webRequest = webRequest;
+		}
+
+		/**
+		 * Gets the Web request to be routed to the current Sys.Net.WebRequestExecutor instance.
+		 */
+		public get_webRequest()
+		{
+			return this._webRequest;
+		}
 	}
 }
-
-export { NetworkRequestEventArgs }

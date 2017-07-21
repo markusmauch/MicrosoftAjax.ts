@@ -1,20 +1,18 @@
-
-import { Component } from "Sys/Component"
-
-class Behavior extends Component
+namespace Sys.UI
 {
-    constructor( element: HTMLElement )
+    export class Behavior extends Sys.Component
     {
-        super();
-        this._element = element;
-    }
+        constructor( element: HTMLElement )
+        {
+            super();
+            this._element = element;
+        }
 
-    private _element: HTMLElement;
+        private _element: HTMLElement;
 
-    public get_element()
-    {
-        return this._element;
+        public get_element()
+        {
+            return this._element;
+        }
     }
 }
-
-export { Behavior }

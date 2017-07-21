@@ -1,13 +1,4 @@
-
-import { Res } from "Sys/Res"
-import { Component, ComponentProps } from "Sys/Component"
-import { Control } from "Sys/UI/Control"
-import { Behavior } from "Sys/UI/Behavior"
-import { DomElement } from "Sys/UI/DomElement"
-import { Application, IContainer } from "Sys/Application"
-import { CultureInfo } from "Sys/CultureInfo"
-
-function $create<C extends Component, P extends ComponentProps> (
+function $create<C extends Sys.Component, P extends Sys.ComponentProps> (
     type:
     {
         new( element ? : HTMLElement ): C;
@@ -21,17 +12,17 @@ function $create<C extends Component, P extends ComponentProps> (
     element: HTMLElement | null ) : C
 {
     let component;
-    if ( type.inheritsFrom( Control ) || type.inheritsFrom( Behavior ) )
+    if ( type.inheritsFrom( Sys.UI.Control ) || type.inheritsFrom( Sys.UI.Behavior ) )
     {
         if ( element === null )
         {
-            throw Error.argument( "element", Res.createComponentOnDom );
+            throw Error.argument( "element", Sys.Res.createComponentOnDom );
         }
         component = new type( element );
     }
     else
     {
-        component = new Component();
+        component = new Sys.Component();
     }
 
 
@@ -39,7 +30,7 @@ function $create<C extends Component, P extends ComponentProps> (
 
     if ( properties !== null )
     {
-        Component._setProperties( component, properties );
+        Sys.Component._setProperties( component, properties );
     }
 
     if ( events !== null )
@@ -48,51 +39,51 @@ function $create<C extends Component, P extends ComponentProps> (
         {
             if ( !( component[ "add_" + name ] instanceof Function ) )
             {
-                throw Error.invalidOperation( String.format( Res.undefinedEvent, name ) );
+                throw Error.invalidOperation( String.format( Sys.Res.undefinedEvent, name ) );
             }
             if ( !( events[ name ] instanceof Function ) )
             {
-                throw Error.invalidOperation( Res.eventHandlerNotFunction );
+                throw Error.invalidOperation( Sys.Res.eventHandlerNotFunction );
             }
             component[ "add_" + name ]( events[ name ] );
         }
     }
 
-    if ( component.get_id() !== undefined )
-    {
-        Application.addComponent( component );
-    }
-    
-    let creatingComponents = Application.get_isCreatingComponents();
-    if ( creatingComponents === true )
-    {
-        Application._createdComponents.push( component );
-        if ( references )
-        {
-            Application._addComponentToSecondPass( component, references );
-        }
-        else
-        {
-            component.endUpdate();
-        }
-    }
-    else
-    {
-        if (references)
-        {
-            Component._setReferences( component, references );
-        }
-        component.endUpdate();
-    }
+    // if ( component.get_id() !== undefined )
+    // {
+    //     Sys.Application.addComponent( component );
+    // }
+
+    // let creatingComponents = Sys.Application.get_isCreatingComponents();
+    // if ( creatingComponents === true )
+    // {
+    //     Sys.Application._createdComponents.push( component );
+    //     if ( references )
+    //     {
+    //         Sys.Application._addComponentToSecondPass( component, references );
+    //     }
+    //     else
+    //     {
+    //         component.endUpdate();
+    //     }
+    // }
+    // else
+    // {
+    //     if (references)
+    //     {
+    //         Sys.Component._setReferences( component, references );
+    //     }
+    //     component.endUpdate();
+    // }
 
     component.endUpdate();
 
     return component;
 }
 
-function $find( id: string, parent?: IContainer ): Component
+function $find( id: string, parent?: any ): Sys.Component
 {
-    return Application.findComponent( id, parent );
+    return null; //Sys.Application.findComponent( id, parent );
 }
 
 /**
@@ -105,7 +96,5 @@ function $find( id: string, parent?: IContainer ): Component
  */
 function $get( id: string, element?: HTMLElement )
 {
-    return DomElement.getElementById( id, element );
+    return Sys.UI.DomElement.getElementById( id, element );
 }
-
-export { $create, $find, $get }

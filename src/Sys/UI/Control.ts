@@ -1,23 +1,21 @@
-
-import { Component, ComponentProps } from "Sys/Component"
-
-interface ControlProps extends ComponentProps
-{}
-
-class Control extends Component
+namespace Sys.UI
 {
-    constructor( element: HTMLElement )
-    {
-        super();
-        this._element = element;
-    }
+    export interface ControlProps extends Sys.ComponentProps
+    {}
 
-    protected _element: HTMLElement;
-
-    public get_element()
+    export class Control extends Sys.Component
     {
-        return this._element;
+        constructor( element: HTMLElement )
+        {
+            super();
+            this._element = element;
+        }
+
+        protected _element: HTMLElement;
+
+        public get_element()
+        {
+            return this._element;
+        }
     }
 }
-
-export { Control, ControlProps }

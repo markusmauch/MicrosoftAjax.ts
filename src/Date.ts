@@ -1,84 +1,76 @@
-import { CultureInfo, DateTimeFormat } from "Sys/CultureInfo";
-import { StringBuilder } from "Sys/StringBuilder";
-import { Res } from "Sys/Res";
-import { FormattableObject } from "FormattableObject";
-
 interface ParseInfo
 {
     regExp ? : string,
     groups ? : string[];
 }
 
-interface ExtendedDateTimeFormat extends DateTimeFormat
+interface ExtendedDateTimeFormat extends Sys.DateTimeFormat
 {
     _parseRegExp: { [format: string]: { regExp: string, groups: string[] } }
 }
 
-declare global
+interface Date extends FormattableObject
 {
-    interface Date extends FormattableObject
-    {
-    }
+}
 
-    interface DateConstructor
-    {
-        /**
-         * Creates a date from a locale-specific string by using the current culture.
-         * This function is static and can be invoked without creating an instance of the object.
-         * 
-         * @param value
-         *      A locale-specific string that represents a date.
-         * @param formats
-         *      (Optional) An array of custom formats.
-         * @returns
-         *      If value is a valid string representation of a date, an object of type Date; otherwise, null.
-         */
-        parseLocal( value: string, ...formats: string[] ): Date | null;
+interface DateConstructor
+{
+    /**
+     * Creates a date from a locale-specific string by using the current culture.
+     * This function is static and can be invoked without creating an instance of the object.
+     *
+     * @param value
+     *      A locale-specific string that represents a date.
+     * @param formats
+     *      (Optional) An array of custom formats.
+     * @returns
+     *      If value is a valid string representation of a date, an object of type Date; otherwise, null.
+     */
+    parseLocal( value: string, ...formats: string[] ): Date | null;
 
-        /**
-         * Creates a date from a string by using the invariant culture.
-         * This function is static and can be invoked without creating an instance of the object.
-         * 
-         * @param value
-         *      A string that represents a date.
-         * @param formats
-         *      (Optional) An array of custom formats.
-         * @returns
-         *      If value is a valid string representation of a date in the invariant format, an object of type Date; otherwise, null.
-         */
-        parseInvariant( value: string, ...formats: string[] ): Date | null;
+    /**
+     * Creates a date from a string by using the invariant culture.
+     * This function is static and can be invoked without creating an instance of the object.
+     *
+     * @param value
+     *      A string that represents a date.
+     * @param formats
+     *      (Optional) An array of custom formats.
+     * @returns
+     *      If value is a valid string representation of a date in the invariant format, an object of type Date; otherwise, null.
+     */
+    parseInvariant( value: string, ...formats: string[] ): Date | null;
 
-        _parse( value: string, cultureInfo: CultureInfo, args ): Date;
+    _parse( value: string, cultureInfo: Sys.CultureInfo, args ): Date;
 
-        _parseExact( value: string, format: string, cultureInfo: CultureInfo ): Date;
+    _parseExact( value: string, format: string, cultureInfo: Sys.CultureInfo ): Date;
 
-        _getParseRegExp( dtf: DateTimeFormat, format: string ): ParseInfo;
+    _getParseRegExp( dtf: Sys.DateTimeFormat, format: string ): ParseInfo;
 
-        _getTokenRegExp(): RegExp;
+    _getTokenRegExp(): RegExp;
 
-        _appendPreOrPostMatch( preMatch: string, strBuilder: StringBuilder ): number;
+    _appendPreOrPostMatch( preMatch: string, strBuilder: Sys.StringBuilder ): number;
 
-        _expandYear( dtf: DateTimeFormat, year: number ): number;
+    _expandYear( dtf: Sys.DateTimeFormat, year: number ): number;
 
-        _getEra( date: Date, eras ? : number[] ): number;
+    _getEra( date: Date, eras ? : number[] ): number;
 
-        _getEraYear( date: Date, dtf: DateTimeFormat, era: number, sortable ? : boolean ): number;
+    _getEraYear( date: Date, dtf: Sys.DateTimeFormat, era: number, sortable ? : boolean ): number;
 
-        _expandFormat( dtf: DateTimeFormat, format: string ): string;
-    }
+    _expandFormat( dtf: Sys.DateTimeFormat, format: string ): string;
 }
 
 Date.prototype.format = function( format: string )
 {
-    return this._toFormattedString( format, CultureInfo.InvariantCulture );
+    return this._toFormattedString( format, Sys.CultureInfo.InvariantCulture );
 }
 
 Date.prototype.localeFormat = function( format: string )
 {
-    return this._toFormattedString( format, CultureInfo.CurrentCulture );
+    return this._toFormattedString( format, Sys.CultureInfo.CurrentCulture );
 }
 
-Date.prototype._toFormattedString = function( format: string, cultureInfo: CultureInfo )
+Date.prototype._toFormattedString = function( format: string, cultureInfo: Sys.CultureInfo )
 {
     let dtf = cultureInfo.dateTimeFormat;
     //let convert = dtf.Calendar.convert;
@@ -99,7 +91,7 @@ Date.prototype._toFormattedString = function( format: string, cultureInfo: Cultu
     var eras = dtf.eras,
         sortable = ( format === "s" );
     format = Date._expandFormat( dtf, format );
-    var ret = new StringBuilder();
+    var ret = new Sys.StringBuilder();
     var hour;
 
     function addLeadingZero( num )
@@ -300,15 +292,15 @@ Date.prototype._toFormattedString = function( format: string, cultureInfo: Cultu
 
 Date.parseLocal = function( value: string, ...formats: string[] )
 {
-    return Date._parse( value, CultureInfo.CurrentCulture, arguments );
+    return Date._parse( value, Sys.CultureInfo.CurrentCulture, arguments );
 }
 
 Date.parseInvariant = function( value: string, ...formats: string[] )
 {
-    return Date._parse( value, CultureInfo.InvariantCulture, arguments );
+    return Date._parse( value, Sys.CultureInfo.InvariantCulture, arguments );
 }
 
-Date._parse = function( value: string, cultureInfo: CultureInfo, args: string[] )
+Date._parse = function( value: string, cultureInfo: Sys.CultureInfo, args: string[] )
 {
     var i, l, date, format, formats, custom = false;
     for ( i = 1, l = args.length; i < l; i++ )
@@ -333,7 +325,7 @@ Date._parse = function( value: string, cultureInfo: CultureInfo, args: string[] 
     return null;
 }
 
-Date._parseExact = function( value: string, format: string, cultureInfo: CultureInfo )
+Date._parseExact = function( value: string, format: string, cultureInfo: Sys.CultureInfo )
 {
     value = value.trim();
     let dtf = cultureInfo.dateTimeFormat;
@@ -516,7 +508,7 @@ Date._getParseRegExp = function( dtf: ExtendedDateTimeFormat, format: string )
     }
     var expFormat = Date._expandFormat( dtf, format );
     expFormat = expFormat.replace( /([\^\$\.\*\+\?\|\[\]\(\)\{\}])/g, "\\\\$1" );
-    var regexp = new StringBuilder( "^" );
+    var regexp = new Sys.StringBuilder( "^" );
     var groups = [];
     var index = 0;
     var quoteCount = 0;
@@ -600,7 +592,7 @@ Date._getTokenRegExp = function()
     return /\/|dddd|ddd|dd|d|MMMM|MMM|MM|M|yyyy|yy|y|hh|h|HH|H|mm|m|ss|s|tt|t|fff|ff|f|zzz|zz|z|gg|g/g;
 }
 
-Date._appendPreOrPostMatch = function( preMatch: string, strBuilder: StringBuilder ): number
+Date._appendPreOrPostMatch = function( preMatch: string, strBuilder: Sys.StringBuilder ): number
 {
     var quoteCount = 0;
     var escaped = false;
@@ -627,7 +619,7 @@ Date._appendPreOrPostMatch = function( preMatch: string, strBuilder: StringBuild
     return quoteCount;
 }
 
-Date._expandYear = function( dtf: DateTimeFormat, year: number )
+Date._expandYear = function( dtf: Sys.DateTimeFormat, year: number )
 {
     var now = new Date(),
         era = Date._getEra( now );
@@ -658,7 +650,7 @@ Date._getEra = function( date: Date, eras ? : number[] )
     return 0;
 }
 
-Date._getEraYear = function( date: Date, dtf: DateTimeFormat, era: number, sortable ? : boolean )
+Date._getEraYear = function( date: Date, dtf: Sys.DateTimeFormat, era: number, sortable ? : boolean )
 {
     var year = date.getFullYear();
     if ( !sortable && dtf.eras )
@@ -668,7 +660,7 @@ Date._getEraYear = function( date: Date, dtf: DateTimeFormat, era: number, sorta
     return year;
 }
 
-Date._expandFormat = function( dtf: DateTimeFormat, format: string )
+Date._expandFormat = function( dtf: Sys.DateTimeFormat, format: string )
 {
     if ( !format )
     {
@@ -700,7 +692,7 @@ Date._expandFormat = function( dtf: DateTimeFormat, format: string )
             case "y":
                 return dtf.YearMonthPattern;
             default:
-                throw Error.format( Res.formatInvalidString );
+                throw Error.format( Sys.Res.formatInvalidString );
         }
     }
     else if ( ( len === 2 ) && ( format.charAt( 0 ) === "%" ) )
@@ -709,5 +701,3 @@ Date._expandFormat = function( dtf: DateTimeFormat, format: string )
     }
     return format;
 }
-
-export { ParseInfo }

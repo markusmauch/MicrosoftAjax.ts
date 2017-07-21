@@ -1,11 +1,8 @@
 
-declare global
+interface ObjectConstructor
 {
-    interface ObjectConstructor
-    {
-        getType( instance: any ): Function;
-        getTypeName( instance: any ): string;
-    }
+    getType( instance: any ): Function;
+    getTypeName( instance: any ): string;
 }
 
 Object.getType = ( instance: any ) =>
@@ -21,8 +18,5 @@ Object.getType = ( instance: any ) =>
 Object.getTypeName = ( instance: any ) =>
 {
     let constructorString = instance.constructor.toString();
-    return constructorString.match( /\w+/g )[1]; 
+    return constructorString.match( /\w+/g )[1];
 }
-
-export {}
-

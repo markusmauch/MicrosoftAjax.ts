@@ -1,20 +1,21 @@
-/**
- * Describes mouse button locations.
- */
-enum MouseButton
+namespace Sys.UI
 {
     /**
-     * Represents the left mouse button.
+     * Describes mouse button locations.
      */
-    leftButton,
-    /**
-     * Represents the middle mouse button.
-     */
-    middleButton,
-    /**
-     * Represents the right mouse button.
-     */
-    rightButton
+    export enum MouseButton
+    {
+        /**
+         * Represents the left mouse button.
+         */
+        leftButton,
+        /**
+         * Represents the middle mouse button.
+         */
+        middleButton,
+        /**
+         * Represents the right mouse button.
+         */
+        rightButton
+    }
 }
-
-export { MouseButton }

@@ -1,52 +1,45 @@
-import { CultureInfo, NumberFormat } from "Sys/CultureInfo"
-import { Res } from "Sys/Res"
-import { FormattableObject } from "FormattableObject";
-
-declare global
+interface Number extends FormattableObject
 {
-    interface Number extends FormattableObject
-    {
-    }
+}
 
-    interface NumberConstructor
-    {
-        /**
-         * Creates a numeric value from a locale-specific string.
-         * 
-         * @param value
-         *      A string that represents a number.
-         * @returns
-         *     An object of type Number. 
-         */
-        parseLocale( value: string ): number;
+interface NumberConstructor
+{
+    /**
+     * Creates a numeric value from a locale-specific string.
+     *
+     * @param value
+     *      A string that represents a number.
+     * @returns
+     *     An object of type Number.
+     */
+    parseLocale( value: string ): number;
 
-        /**
-         * Returns a numeric value from a string representation of a number. This function is static and can be called without creating an instance of the object.
-         * 
-         * @param value
-         *      A string that represents a whole or floating-point number.
-         * @returns
-         *      A floating-point representation of value, if value represents a number; otherwise, NaN (not a number).
-         */
-        parseInvariant( value: string ): number;
+    /**
+     * Returns a numeric value from a string representation of a number. This function is static and can be called without creating an instance of the object.
+     *
+     * @param value
+     *      A string that represents a whole or floating-point number.
+     * @returns
+     *      A floating-point representation of value, if value represents a number; otherwise, NaN (not a number).
+     */
+    parseInvariant( value: string ): number;
 
-        _parse( value: string, cultureInfo: CultureInfo ): number;
+    _parse( value: string, cultureInfo: Sys.CultureInfo ): number;
 
-        _parseNumberNegativePattern( value: string, numFormat: NumberFormat, numberNegativePattern: number ): string[];
-    }
+    _parseNumberNegativePattern( value: string, numFormat: Sys.NumberFormat, numberNegativePattern: number ): string[];
 }
 
 Number.prototype.format = function( format: string )
 {
-    return this._toFormattedString( format, CultureInfo.InvariantCulture );
+    return this._toFormattedString( format, Sys.CultureInfo.InvariantCulture );
 }
 
 Number.prototype.localeFormat = function( format: string )
 {
-    return this._toFormattedString( format, CultureInfo.CurrentCulture );
+    return this._toFormattedString( format, Sys.CultureInfo.CurrentCulture );
 }
 
-Number.prototype._toFormattedString = function( format: string, cultureInfo: CultureInfo )
+Number.prototype._toFormattedString = function( format: string, cultureInfo: Sys.CultureInfo )
 {
     if ( !format || ( format.length === 0 ) || ( format === 'i' ) )
     {
@@ -196,7 +189,7 @@ Number.prototype._toFormattedString = function( format: string, cultureInfo: Cul
             number = expandNumber( Math.abs( this ) * 100, precision, nf.PercentGroupSizes, nf.PercentGroupSeparator, nf.PercentDecimalSeparator );
             break;
         default:
-            throw Error.format( Res.formatBadFormatSpecifier );
+            throw Error.format( Sys.Res.formatBadFormatSpecifier );
     }
     var regex = /n|\$|-|%/g;
     var ret = "";
@@ -231,15 +224,15 @@ Number.prototype._toFormattedString = function( format: string, cultureInfo: Cul
 
 Number.parseLocale = function( value: string )
 {
-    return Number._parse( value, CultureInfo.CurrentCulture );
+    return Number._parse( value, Sys.CultureInfo.CurrentCulture );
 }
 
 Number.parseInvariant = function( value: string )
 {
-    return Number._parse( value, CultureInfo.InvariantCulture );
+    return Number._parse( value, Sys.CultureInfo.InvariantCulture );
 }
 
-Number._parse = function( value: string, cultureInfo: CultureInfo )
+Number._parse = function( value: string, cultureInfo: Sys.CultureInfo )
 {
     value = value.trim();
 
@@ -321,7 +314,7 @@ Number._parse = function( value: string, cultureInfo: CultureInfo )
     return Number.NaN;
 }
 
-Number._parseNumberNegativePattern = function( value: string, numFormat: NumberFormat, numberNegativePattern: number )
+Number._parseNumberNegativePattern = function( value: string, numFormat: Sys.NumberFormat, numberNegativePattern: number )
 {
     var neg = numFormat.NegativeSign;
     var pos = numFormat.PositiveSign;
@@ -362,5 +355,3 @@ Number._parseNumberNegativePattern = function( value: string, numFormat: NumberF
     }
     return [ '', value ];
 }
-
-export {}

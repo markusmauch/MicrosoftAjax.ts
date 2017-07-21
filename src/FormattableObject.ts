@@ -1,10 +1,8 @@
-import { CultureInfo } from "Sys/CultureInfo"
-
 interface FormattableObject
 {
     /**
      * Formats an object by using the invariant (culture-independent) culture.
-     * 
+     *
      * @param format
      *       A format string.
      * @returns
@@ -14,7 +12,7 @@ interface FormattableObject
 
     /**
      * Formats an object by using the current culture.
-     * 
+     *
      * @param format
      *       A format string.
      * @returns
@@ -22,9 +20,7 @@ interface FormattableObject
      */
     localeFormat( format: string ): string;
 
-    _toFormattedString( format: string, cultureInfo: CultureInfo ): string;
+    _toFormattedString( format: string, cultureInfo: Sys.CultureInfo ): string;
 
     toFormattedString: ( format: string ) => string;
 }
-
-export { FormattableObject }
